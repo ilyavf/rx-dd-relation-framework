@@ -1,7 +1,12 @@
 var cell_size = 4;
 var cell_margin = 1;
 
-var style_init = function(){
+var style_init = function(params){
+
+	/*var params = params || {};
+	var cell_size 	= params.cell_size || 4;
+	var cell_margin = params.cell_margin || 1;*/
+
 	var grid_max = 16;
 	var styles = '';
 	
@@ -23,7 +28,7 @@ var style_init = function(){
 	styles += '.grid_cell{ display: inline; float: left; position: relative; margin: ' + cell_margin + 'px; background: #cdc;}';
 	
 	//alert(styles);
-	$('body').prepend('<style>' + styles + '</style>');
+	jQuery('body').prepend('<style>' + styles + '</style>');
 }();
 
 var Layouts = function(type){
