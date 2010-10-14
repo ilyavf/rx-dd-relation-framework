@@ -1,0 +1,47 @@
+body{
+	margin-left:10px;
+}
+
+#choose_layouts .layout, #cameras .cam, #video_container{
+	border: dashed blue 1px;
+	padding: 10px;
+	margin: 5px 0;
+}
+#choose_layouts {
+	min-height: 80px;
+}
+#choose_layouts .layout{
+	float: left;
+	margin-right: 10px;
+}
+#cameras{
+	float: left;
+	width: 200px;
+}
+#choose_layouts, #video_container {
+	margin-left: 220px;
+}
+#video_container{
+	min-height: 300px;
+}
+
+.clear {
+	clear: both;
+}
+p.float {
+	vertical-align: top;
+	float: left;
+	margin: 0;
+	padding-right: 10px;
+}
+
+/* Layout measurements */
+....
+
+#debug_history{
+	font-size: 11px;
+	color: #aaa;
+	height: 400px;
+	/*width: 450px;*/
+	overflow:-moz-scrollbars-vertical;
+}

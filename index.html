@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title1>Layouts</title1>
+
+	<script type="text/javascript" src="../js/flapjax.js"></script>
+	<script type="text/javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" src="fx-drag_obj.js"></script>
+	<script type="text/javascript" src="layouts.js"></script>
+	<link href="style.css" type="text/css" rel="stylesheet">
+</head>
+<body onload="loader();">
+
+
+<p>
+	-&gt; <b>Layouts </b><br />
+</p>
+
+<div id="cameras">Cameras:
+	<div class="cam">1</div>
+	<div class="cam">2</div>
+	<div class="cam">3</div>
+	<div class="cam">4</div>
+	<div class="cam">5</div>
+	<div class="cam">6</div>
+</div>
+
+<div id="choose_layouts">
+	<p class="float">Layouts: </p>
+	<div class="layout 5">:</div>
+	<div class="layout 0">0</div>
+	<div class="layout 1">1</div>
+	<div class="layout 2">2</div>
+</div>
+
+<div id="video_container">
+	Main container:
+</div>
+
+<div class="clear"></div>
+
+
+
+<input type="checkbox" id="history_flag" value="1" /> Turn on debug.
+<div id="debug_history">debug_history</div>
+	
+<script language="javascript">
+var jQ = {};
+jQ = jQuery.noConflict(true);
+
+function loader(){
+
+	var a = new Layouts();
+	
+	jQ(".layout + .0").html( a.generate_grid(0) );
+	jQ(".layout + .1").html( a.generate_grid(1) );
+	jQ(".layout + .2").html( a.generate_grid(2) );
+	
+	jQ("body").append( a.generate_grid(0) + '<p></p>' );
+	jQ("body").append( a.generate_grid(1) + '<p></p>' );
+	jQ("body").append( a.generate_grid(2) + '<p></p>' );
+
+
+}
+</script>
+
+
+</body>
+
+</html>
