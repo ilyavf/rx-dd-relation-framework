@@ -35,8 +35,12 @@ p.float {
 	padding-right: 10px;
 }
 
+.hidden {
+	display: none;
+}
+
 /* Layout measurements */
-....
+/* .... */
 
 #debug_history{
 	font-size: 11px;

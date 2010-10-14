@@ -1,24 +1,26 @@
-var cell_size = 10;
+var cell_size = 4;
+var cell_margin = 1;
+
 var style_init = function(){
-	var grid_max = 8;
+	var grid_max = 16;
 	var styles = '';
 	
-	var corr_i = 0;
+	// margin correction:
+	var m_corr = 2 * cell_margin;
 	
 	for (var i = 1; i <= grid_max; i++){
-	
-		// margin correction:
-		if (i > 1){
-			corr_i += 2;
-		}
-		styles += '.grid_' + i + '{ height: ' + (i*cell_size+corr_i) + 'px; width: ' + (i*cell_size+corr_i) + 'px; }\n';
+		
+		// square:
+		styles += '.grid_' + i + '{ height: ' + (i*cell_size - m_corr) + 'px; width: ' + (i*cell_size - m_corr) + 'px; }\n';
+		
+		// rectangle:
 		for (var j = 1; j <= grid_max; j++){
-			styles += '.grid_' + i + '_' + j + '{ height: ' + i*(cell_size+4) + 'px; width: ' + j*(cell_size+4) + 'px; }\n';
+			styles += '.grid_' + i + '_' + j + '{ height: ' + i*cell_size + 'px; width: ' + j*cell_size + 'px; }\n';
 		}
 	}
 	
 	styles += '.grid_container{position: relative;}';
-	styles += '.grid_cell{ display: inline; float: left; position: relative; background: #cdc; margin: 1px;}';
+	styles += '.grid_cell{ display: inline; float: left; position: relative; margin: ' + cell_margin + 'px; background: #cdc;}';
 	
 	//alert(styles);
 	$('body').prepend('<style>' + styles + '</style>');
@@ -30,20 +32,37 @@ var Layouts = function(type){
 	var cell_size = 10;
 	
 	var layouts = [
-		{	size: 3,
+		{	size: 6,
 			cells:[
 				[1,1],
 				[1,1]]},
-		{	size: 2,
+		{	size: 4,
+			cells:[
+				[2,0,1],
+				[0,0,1],
+				[1,1,1]]},
+		{	size: 4,
 			cells:[
 				[1,1,1],
 				[1,1,1],
 				[1,1,1]]},
-		{	size: 2,
+		{	size: 4,
 			cells:[
-				[2,0,1],
-				[0,0,1],
-				[1,1,1]]}
+				[1,1,1,1],
+				[2,0,2,0],
+				[0,0,0,0]]},
+		{	size: 3,
+			cells:[
+				[2,0,2,0],
+				[0,0,0,0],
+				[2,0,1,1],
+				[0,0,1,1]]},
+		{	size: 3,
+			cells:[
+				[1,1,1,1],
+				[2,0,2,0],
+				[0,0,0,0],
+				[1,1,1,1]]}
 	];
 	
 	this.generate_grid = function(layout){

@@ -13,7 +13,7 @@
 
 
 <p>
-	-&gt; <b>Layouts </b><br />
+	-&gt; <b>Standard Layouts </b><br />
 </p>
 
 <div id="cameras">Cameras:
@@ -26,11 +26,14 @@
 </div>
 
 <div id="choose_layouts">
-	<p class="float">Layouts: </p>
-	<div class="layout 5">:</div>
+	<p class="float">Standard Layouts: </p>
+	<div class="layout 5 hidden">:</div>
 	<div class="layout 0">0</div>
 	<div class="layout 1">1</div>
 	<div class="layout 2">2</div>
+	<div class="layout 3">3</div>
+	<div class="layout 4">4</div>
+	<div class="layout 5">5</div>
 </div>
 
 <div id="video_container">
@@ -55,10 +58,9 @@ function loader(){
 	jQ(".layout + .0").html( a.generate_grid(0) );
 	jQ(".layout + .1").html( a.generate_grid(1) );
 	jQ(".layout + .2").html( a.generate_grid(2) );
-	
-	jQ("body").append( a.generate_grid(0) + '<p></p>' );
-	jQ("body").append( a.generate_grid(1) + '<p></p>' );
-	jQ("body").append( a.generate_grid(2) + '<p></p>' );
+	jQ(".layout + .3").html( a.generate_grid(3) );
+	jQ(".layout + .4").html( a.generate_grid(4) );
+	jQ(".layout + .5").html( a.generate_grid(5) );
 
 
 }
