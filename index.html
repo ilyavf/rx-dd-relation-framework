@@ -53,7 +53,7 @@ jQ = jQuery.noConflict(true);
 
 function loader(){
 
-	var a = new Layouts();
+	var a = new Layouts({cell_size: 5});
 	
 	jQ(".layout + .0").html( a.generate_grid(0) );
 	jQ(".layout + .1").html( a.generate_grid(1) );
@@ -62,6 +62,8 @@ function loader(){
 	jQ(".layout + .4").html( a.generate_grid(4) );
 	jQ(".layout + .5").html( a.generate_grid(5) );
 
+	var b = new Layouts({cell_size: 30});
+	jQ("#video_container").html( b.generate_grid(3) );
 
 }
 </script>
