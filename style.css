@@ -49,3 +49,17 @@ p.float {
 	/*width: 450px;*/
 	overflow:-moz-scrollbars-vertical;
 }
+
+
+
+.e1{
+	position: absolute;
+	border: 1px #5a5 solid;
+	width: 120px;
+	height: 98px;
+}
+#e1{
+	top: 26px;
+	left: 720px;
+	background: #afa;
+}

@@ -65,6 +65,9 @@ ElementObj = function(id){
 
 	// To store full mdown+move+drop stream:
 	this.MStream = {};
+	
+	// make div positioned absolute:
+	this.set_drag_style(id);
 
 } // End of ElementObj.
 
@@ -139,10 +142,18 @@ ElementObj.prototype.checkRelations = function(info){
 ElementObj.prototype.redraw = function(info){
 	info.dependants = info.dependants || 'none';
 	if (info.new_coor){
-		debug('--- redraw [' + info.elt_obj.id + ']: new left= '+info.new_coor.left+
-			', new top=' + info.new_coor.top +
-			', new width=' + info.new_coor.width +
-			' dependants: ' +  info.dependants);
+		var debug_str = '--- redraw [' + info.elt_obj.id + ']: ';
+		if (info.new_coor.left)
+			debug_str += 'new left= '+info.new_coor.left;
+		if (info.new_coor.top)
+			debug_str += ', new top= '+info.new_coor.top;
+		if (info.new_coor.width)
+			debug_str += ', new width= '+info.new_coor.width;
+		if (info.new_coor.height)
+			debug_str += ', new height= '+info.new_coor.height;
+		debug_str += ' dependants: ' +  info.dependants;
+		debug(debug_str);
+		
 		if (info.new_coor.left){
 			this.left(info.new_coor.left);
 		}
@@ -164,6 +175,17 @@ ElementObj.prototype.redraw = function(info){
 	}
 }
 
+
+ElementObj.prototype.set_drag_style = function(id, zindex){
+	//var coor = get_div_coor(id);
+	set_offset(id, get_offset(id));
+	set_style(id, 'position', 'absolute');
+	set_style(id, 'float', 'none');
+	set_style(id, 'margin', '0');
+	set_style(id, 'padding', '0');
+	set_style(id, 'border', '1px green solid');
+	//set_style(id, 'z-index', zindex);
+}
 	
 	
 
@@ -795,6 +817,9 @@ function get_style(id, styleProp) {
 		var st = document.defaultView.getComputedStyle(el, null).getPropertyValue(styleProp);
 	return st;
 }
+function set_style(id, styleProp, value) {
+	jQ('#'+id).css(styleProp, value);
+} 
 
 function set_left(id, val){
 	jQ('#'+id).css('left', val + 'px');
@@ -807,6 +832,10 @@ function set_width(id, val){
 }
 function set_height(id, val){
 	jQ('#'+id).css('height', val + 'px');
+}
+function set_offset(id, offset){
+	jQ('#'+id).css('left', offset.left + 'px');
+	jQ('#'+id).css('top', offset.top + 'px');
 }
 
 

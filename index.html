@@ -17,7 +17,7 @@
 </p>
 
 <div id="cameras">Cameras:
-	<div class="cam">1</div>
+	<div class="cam" id="cam_1">1</div>
 	<div class="cam">2</div>
 	<div class="cam">3</div>
 	<div class="cam">4</div>
@@ -28,7 +28,7 @@
 <div id="choose_layouts">
 	<p class="float">Standard Layouts: </p>
 	<div class="layout 5 hidden">:</div>
-	<div class="layout 0">0</div>
+	<div id="layout_0" class="layout 0">0</div>
 	<div class="layout 1">1</div>
 	<div class="layout 2">2</div>
 	<div class="layout 3">3</div>
@@ -41,6 +41,9 @@
 </div>
 
 <div class="clear"></div>
+
+
+	<div id="e1" class="e1">e1</div>
 
 
 
@@ -61,9 +64,21 @@ function loader(){
 	jQ(".layout + .3").html( a.generate_grid(3) );
 	jQ(".layout + .4").html( a.generate_grid(4) );
 	jQ(".layout + .5").html( a.generate_grid(5) );
+	
+	jQ("#e1").html( a.generate_grid(5) );
 
 	var b = new Layouts({cell_size: 30});
 	jQ("#video_container").html( b.generate_grid(3) );
+	
+	var e1 = new ElementObj('layout_0');
+	e1.applyBehavior( BehaviorResize() );
+	e1.applyBehavior( BehaviorDrag() );
+	e1.activateBehaviors();
+	
+	var e1 = new ElementObj('e1');
+	e1.applyBehavior( BehaviorResize() );
+	e1.applyBehavior( BehaviorDrag() );
+	e1.activateBehaviors();
 
 }
 </script>
