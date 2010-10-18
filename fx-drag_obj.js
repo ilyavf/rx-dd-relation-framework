@@ -126,11 +126,16 @@ ElementObj.prototype.checkRelations = function(info){
 		}
 		// check dependant:
 		info = this.relations[i].checkDependant(info);
+		
+		/* This is wrong because dx could be not allowed and at the same time dy could be allowed, and 
+			we have to check other relations.
 		// IF returns not_allowed THEN exit immidiately:
 		if (info.recursive_check_stop === true){
 			debug('- checkRelations['+i+']: ('+this.relations[i].id+') recursive_check_stop=true => return info', 'close');
+			debug('', 'close');
 			return info;
 		}
+		*/
 		debug('','close');
 	}
 
@@ -794,7 +799,7 @@ function get_height(id){
 }
 function get_offset(id){
 	var offset = jQ('#'+id).offset();
-	debug('[get_offset]: id=' + id + ', offset=' + offset);
+	//debug('[get_offset]: id=' + id + ', offset=' + offset);
 	return offset;
 }
 function get_div_coor(id){
