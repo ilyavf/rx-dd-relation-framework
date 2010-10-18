@@ -34,7 +34,7 @@ Layouts.prototype.style_init = function(){
 		}
 	}
 	
-	styles += '.grid_container{position: relative;}';
+	styles += '.grid_container{}';	//position: relative;
 	styles += '.' + this.prefix + 'cell{ display: inline; float: left; position: relative; margin: ' + cell_margin + 'px; background: #cdc;}';
 	
 	//alert(styles);
@@ -47,6 +47,8 @@ Layouts.prototype.generate_grid = function(layout){
 	var grid = '';
 	var width = 0;
 	var height = 0;
+	
+	var grid_id = 'grid-' + parseInt(1000 * Math.random());
 	
 	for (var i in layout_info.cells){
 		var row = layout_info.cells[i];
@@ -63,7 +65,10 @@ Layouts.prototype.generate_grid = function(layout){
 					offset_class = ' pre_' + offset;
 				}
 				// add a cell:
-				grid += '<div class="' + this.prefix + 'cell ' + this.prefix + size*layout_info.size + offset_class + '"></div>\n';
+				grid += '<div ' + 
+					'id="' + grid_id + i + '_' + j + '" ' +
+					'class="' + this.prefix + 'cell ' + this.prefix + size*layout_info.size + offset_class + '">' +
+					'</div>\n';
 			}
 			width_current += size*layout_info.size; 
 		}

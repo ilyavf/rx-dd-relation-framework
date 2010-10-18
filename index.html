@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="../js/jquery.js"></script>
 	<script type="text/javascript" src="fx-drag_obj.js"></script>
 	<script type="text/javascript" src="layouts.js"></script>
+	<script type="text/javascript" src="convert_dynamic.js"></script>
 	<link href="style.css" type="text/css" rel="stylesheet">
 </head>
 <body onload="loader();">
@@ -70,15 +71,18 @@ function loader(){
 	var b = new Layouts({cell_size: 30});
 	jQ("#video_container").html( b.generate_grid(3) );
 	
-	var e1 = new ElementObj('layout_0');
+	/*var e1 = new ElementObj('layout_0');
 	e1.applyBehavior( BehaviorResize() );
 	e1.applyBehavior( BehaviorDrag() );
-	e1.activateBehaviors();
+	e1.activateBehaviors();*/
 	
 	var e1 = new ElementObj('e1');
 	e1.applyBehavior( BehaviorResize() );
 	e1.applyBehavior( BehaviorDrag() );
 	e1.activateBehaviors();
+	
+	
+	ConvertLayout('video_container');
 
 }
 </script>

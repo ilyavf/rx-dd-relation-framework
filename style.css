@@ -23,6 +23,7 @@ body{
 }
 #video_container{
 	min-height: 300px;
+	width: 600px;
 }
 
 .clear {
@@ -59,7 +60,11 @@ p.float {
 	height: 98px;
 }
 #e1{
-	top: 26px;
-	left: 720px;
+	top: 100px;
+	left: 1020px;
 	background: #afa;
+}
+
+.clone {
+	background: none;
 }
