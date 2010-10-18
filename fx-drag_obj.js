@@ -422,16 +422,33 @@ RelationFuncStop = function(activeObj, passiveObj, info){
 	}
 	
 	if ( RF.contact.bottom() ){
-		var top_wanted = info.new_coor.top;
-		info.new_coor.top = passiveObj.top() - info.elt_obj.height() - GLOBAL_DC;
+		if (info.new_coor.height){
+			// for resize:
+			info.new_coor.height = passiveObj.top() - activeObj.top() - GLOBAL_DC;
+		} else {
+			// for drag:
+			info.new_coor.top = passiveObj.top() - info.elt_obj.height() - GLOBAL_DC;
+		}
 		info.recursive_check_stop = true;
 	}
 	if ( RF.contact.top() ){
+		var top_wanted = info.new_coor.top;
 		info.new_coor.top = passiveObj.bottom() + GLOBAL_DC;
+		
+		var dl = info.new_coor.top - top_wanted;
+		info.new_coor.height = info.new_coor.height - dl;
+		
 		info.recursive_check_stop = true;
 	}
 	if ( RF.contact.right() ){
-		info.new_coor.width = passiveObj.left() - activeObj.left() - GLOBAL_DC;
+		if (info.new_coor.width){
+			// for resize:
+			info.new_coor.width = passiveObj.left() - activeObj.left() - GLOBAL_DC;
+		} else {
+			// for drag:
+			info.new_coor.left = passiveObj.left() - info.elt_obj.width() - GLOBAL_DC;
+		}
+		
 		info.recursive_check_stop = true;
 	}
 	if ( RF.contact.left() ){
@@ -657,7 +674,8 @@ BehaviorResize = function(){
 		}
 
 		self.effectParam = border;
-		debug('- effectParam = ' + border);
+		debug('- effectParam = ' + border + ' (mouse.clientX=' + mouse.clientX + ', mouse.clientY=' + mouse.clientY + 
+			', l=' + l + ', r=' + r + ', t=' + t + ', b=' + b + ')');
 
 		return border;
 	}
