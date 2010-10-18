@@ -405,6 +405,7 @@ RelationFunc = function(activeObj, passiveObj, info){
 // Function: one element stops another:
 // -
 RelationFuncStop = function(activeObj, passiveObj, info){
+	debug('start: info.new_coor = ' + info.new_coor);
 	/*debug("RelationFuncStop(" + activeObj.id + ", " + passiveObj.id + "): bottom=" +
 		(info.new_coor.top + activeObj.height()) + ", top=" + passiveObj.top() +
 		"<br />=> " + (info.new_coor.top + activeObj.height() > passiveObj.top())
@@ -421,6 +422,7 @@ RelationFuncStop = function(activeObj, passiveObj, info){
 	}
 	
 	if ( RF.contact.bottom() ){
+		var top_wanted = info.new_coor.top;
 		info.new_coor.top = passiveObj.top() - info.elt_obj.height() - GLOBAL_DC;
 		info.recursive_check_stop = true;
 	}
@@ -429,14 +431,20 @@ RelationFuncStop = function(activeObj, passiveObj, info){
 		info.recursive_check_stop = true;
 	}
 	if ( RF.contact.right() ){
-		info.new_coor.left = passiveObj.left() - info.elt_obj.width() - GLOBAL_DC;
+		info.new_coor.width = passiveObj.left() - activeObj.left() - GLOBAL_DC;
 		info.recursive_check_stop = true;
 	}
 	if ( RF.contact.left() ){
+		var left_wanted = info.new_coor.left;
 		info.new_coor.left = passiveObj.right() + GLOBAL_DC;
+		
+		var dl = info.new_coor.left - left_wanted;
+		info.new_coor.width = info.new_coor.width - dl;
+		
 		info.recursive_check_stop = true;
 	}
 
+	debug('finish: info.new_coor = ' + info.new_coor + ' (dl=' + dl + ')');
 	// may be return just bool to indicate recursive check stop? (info was already changed)
 	return info;
 }

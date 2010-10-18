@@ -5,6 +5,7 @@
 
 	<script type="text/javascript" src="../js/flapjax.js"></script>
 	<script type="text/javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" src="../js/debug.js"></script>
 	<script type="text/javascript" src="fx-drag_obj.js"></script>
 	<script type="text/javascript" src="layouts.js"></script>
 	<script type="text/javascript" src="convert_dynamic.js"></script>
@@ -45,17 +46,14 @@
 
 
 	<div id="e1" class="e1">e1</div>
-
-
-
-<input type="checkbox" id="history_flag" value="1" /> Turn on debug.
-<div id="debug_history">debug_history</div>
+	
 	
 <script language="javascript">
 var jQ = {};
 jQ = jQuery.noConflict(true);
 
 function loader(){
+	debug_init();
 
 	var a = new Layouts({cell_size: 5});
 	
