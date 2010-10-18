@@ -19,9 +19,8 @@ var ConvertLayout = function(id){
 			convert_position(this.id, id);
 			
 			
-			if (drag_elements.length > 1){
-				return 0;
-			}
+			//if (drag_elements.length > 1) return 0;
+			
 			var e1 = new ElementObj(this.id);
 			e1.applyBehavior( BehaviorResize() );
 			e1.applyBehavior( BehaviorDrag() );
