@@ -794,6 +794,7 @@ function get_height(id){
 }
 function get_offset(id){
 	var offset = jQ('#'+id).offset();
+	debug('[get_offset]: id=' + id + ', offset=' + offset);
 	return offset;
 }
 function get_div_coor(id){
