@@ -1,0 +1,80 @@
+body{
+	margin-left:10px;
+}
+
+div, p{
+	/*border: dashed blue 1px;*/
+}
+#x, #y, #z{
+	height: 40px;
+}
+.e1{
+	position: absolute;
+	border: 1px #5a5 solid;
+	width: 120px;
+	height: 98px;
+}
+#e1{
+	top: 26px;
+	left: 720px;
+	background: #afa;
+}
+.container{
+	width: 600px;
+	height: 100px;
+}
+#e2{
+	height: 200px;
+	border: 1px blue solid;
+	top: 150px;
+	left: 600px;
+	position: absolute;
+	z-index: 10;
+	width:30px;
+}
+#e3{
+	top:120px;
+	left: 460px;
+	height: 160px;
+	width: 100px;
+	border: 1px red solid;
+	position: absolute;
+	z-index: 9;
+}
+#e4{
+	top:250px;
+	height: 150px;
+	width: 100px;
+	margin-left: 0;
+	position: absolute;
+	left: 260px;
+	border: 1px orange solid;
+}
+#e5{
+	height: 250px;
+	border: 1px red solid;
+	top: 140px;
+	left: 580px;
+	position: absolute;
+	z-index: 5;
+	width:300px;
+}
+.dupl{
+	border: 1px green dotted;
+	background: url("Empty.gif");
+	position: absolute;
+}
+#resize{
+	margin-left: 0;
+	position: absolute;
+	left: 260px;
+}
+
+
+#debug_history{
+	font-size: 11px;
+	color: #aaa;
+	height: 400px;
+	/*width: 450px;*/
+	overflow:-moz-scrollbars-vertical;
+}

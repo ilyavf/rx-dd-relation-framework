@@ -332,7 +332,9 @@ Relation = function(id, parentObj, childObj, func){
 }
 
 // Reation Function Generic:
-RelationFunc = function(activeObj, passiveObj, info){
+RelationFunc = function(activeObj, passiveObj, info, direction){
+	var direction = direction || 'outside';
+
 	var self = this;
 
 	// IF active obj new_coor are conflicting with passive obj coor THEN reset new_coor:
@@ -346,6 +348,10 @@ RelationFunc = function(activeObj, passiveObj, info){
 				&& info.elt_obj.top() > passiveObj.top()
 				&& info.elt_obj.left() < passiveObj.right()
 				&& info.elt_obj.right() > passiveObj.left()
+				&& direction == 'outside'
+				||
+				info.new_coor.top  <= passiveObj.top()
+				&& direction != 'outside'
 			);
 		},
 		bottom : function(){
@@ -359,6 +365,11 @@ RelationFunc = function(activeObj, passiveObj, info){
 				&& info.elt_obj.top() < passiveObj.top()
 				&& info.elt_obj.right() > passiveObj.left()
 				&& info.elt_obj.left() < passiveObj.right()
+				&& direction == 'outside'
+				||
+				(t + h ) > passiveObj.bottom()
+				&& direction != 'outside'
+				
 			);
 		},
 		left: function(){
@@ -370,6 +381,10 @@ RelationFunc = function(activeObj, passiveObj, info){
 				&& info.elt_obj.left() > passiveObj.left()
 				&& info.elt_obj.bottom() > passiveObj.top()
 				&& info.elt_obj.top() < passiveObj.bottom()
+				&& direction == 'outside'
+				||
+				info.new_coor.left < passiveObj.left()
+				&& direction != 'outside'
 			);
 		},
 		right: function(){
@@ -383,6 +398,10 @@ RelationFunc = function(activeObj, passiveObj, info){
 				&& info.elt_obj.left() < passiveObj.left()
 				&& info.elt_obj.bottom() > passiveObj.top()
 				&& info.elt_obj.top() < passiveObj.bottom()
+				&& direction == 'outside'
+				||
+				(l + w ) > passiveObj.right()
+				&& direction != 'outside'
 			);
 		},
 		any: function(){
@@ -405,6 +424,7 @@ RelationFunc = function(activeObj, passiveObj, info){
 // Function: one element stops another:
 // -
 RelationFuncStop = function(activeObj, passiveObj, info){
+	var inside = true;
 	debug('start: info.new_coor = ' + info.new_coor);
 	/*debug("RelationFuncStop(" + activeObj.id + ", " + passiveObj.id + "): bottom=" +
 		(info.new_coor.top + activeObj.height()) + ", top=" + passiveObj.top() +
@@ -454,6 +474,66 @@ RelationFuncStop = function(activeObj, passiveObj, info){
 	if ( RF.contact.left() ){
 		var left_wanted = info.new_coor.left;
 		info.new_coor.left = passiveObj.right() + GLOBAL_DC;
+		
+		var dl = info.new_coor.left - left_wanted;
+		info.new_coor.width = info.new_coor.width - dl;
+		
+		info.recursive_check_stop = true;
+	}
+
+	debug('finish: info.new_coor = ' + info.new_coor + ' (dl=' + dl + ')');
+	// may be return just bool to indicate recursive check stop? (info was already changed)
+	return info;
+}
+
+// Function: one element stops another:
+// -
+RelationFuncStopInside = function(activeObj, passiveObj, info){
+	debug('start: info.new_coor = ' + info.new_coor);
+	var RF = new RelationFunc(activeObj, passiveObj, info, 'inside');
+	if (RF.contact.any() === false){
+		debug("- "+activeObj.id+": no contact with "+passiveObj.id+". Exit.");
+		return false;
+	} else {
+		debug("RelationFuncStopInside(" + activeObj.id + ", " + passiveObj.id + "): left=" + info.new_coor.left +
+			", passive right=" + (passiveObj.left() + passiveObj.width()) +
+			" => " + RF.contact.get()
+		);
+	}
+	
+	if ( RF.contact.bottom() ){
+		if (info.new_coor.height){
+			// for resize:
+			info.new_coor.height = passiveObj.bottom() - activeObj.top() - 1;
+		} else {
+			// for drag:
+			info.new_coor.top = passiveObj.bottom() - info.elt_obj.height() - 1;
+		}
+		info.recursive_check_stop = true;
+	}
+	if ( RF.contact.top() ){
+		var top_wanted = info.new_coor.top;
+		info.new_coor.top = passiveObj.top() + 1;
+		
+		var dl = info.new_coor.top - top_wanted;
+		info.new_coor.height = info.new_coor.height - dl;
+		
+		info.recursive_check_stop = true;
+	}
+	if ( RF.contact.right() ){
+		if (info.new_coor.width){
+			// for resize:
+			info.new_coor.width = passiveObj.right() - activeObj.left() - 1;
+		} else {
+			// for drag:
+			info.new_coor.left = passiveObj.right() - info.elt_obj.width() - 1;
+		}
+		
+		info.recursive_check_stop = true;
+	}
+	if ( RF.contact.left() ){
+		var left_wanted = info.new_coor.left;
+		info.new_coor.left = passiveObj.left() + 1;
 		
 		var dl = info.new_coor.left - left_wanted;
 		info.new_coor.width = info.new_coor.width - dl;

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title1>FX Test: Drag and Drop + Env</title1>
+
+	<script type="text/javascript" src="../js/flapjax.js"></script>
+	<script type="text/javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" src="../js/debug.js"></script>
+	<script type="text/javascript" src="fx-drag_obj.js"></script>
+	<link href="style_drag.css" type="text/css" rel="stylesheet">
+</head>
+<body onload="loader();">
+	<p>
+		-&gt; <b>Behaviors: drag, resize. </b><br />
+		-&gt; <b>Relations: move, stop. </b><br />
+		-&gt; <b>Limitations: </b><br />
+		&nbsp; &nbsp; - affect only the 1st neighbour;<br />
+	</p>
+	
+	<div id="e1" class="e1">e1</div>
+	<div id="e2" class="container">e2</div>
+	<div id="e3" class="container">e3</div>
+	<div id="e4" class="container">e4</div>
+	<div id="e5" class="container">e5</div>
+	
+	<!--br /><br />
+	<div id="debug1">debug1</div>
+	<div id="debug2">debug2</div>
+	<div id="debug3">debug3</div>
+	<div id="debug4">debug4</div>
+	<div id="debug5">debug5</div-->
+
+	
+	<script language="javascript">
+var jQ = {};
+jQ = jQuery.noConflict(true);
+
+function loader(){
+	debug_init();
+
+
+	var e1 = new ElementObj('e1');
+	var e2 = new ElementObj('e2');
+	var e3 = new ElementObj('e3');
+	//var e4 = new ElementObj('e4');
+	var e5 = new ElementObj('e5');
+
+	var R12 = new Relation('R12', e1, e2, RelationFuncMove);
+	var R13 = new Relation('R13', e1, e3, RelationFuncMove);
+	//var R14 = new Relation('R14', e1, e4, RelationFuncMove);
+	
+	var R23 = new Relation('R23', e2, e3, RelationFuncMove);
+	//var R24 = new Relation('R24', e2, e4, RelationFuncMove);
+
+	var R34 = new Relation('R34', e3, e2, RelationFuncStop);
+	
+	var R25 = new Relation('R25', e2, e5, RelationFuncStopInside);
+	
+
+	e1.applyBehavior( BehaviorResize() );
+	e2.applyBehavior( BehaviorResize() );
+	e3.applyBehavior( BehaviorResize() );
+	//e4.applyBehavior( BehaviorResize() );
+
+
+	e1.applyBehavior( BehaviorDrag() );
+	e2.applyBehavior( BehaviorDrag() );
+	e3.applyBehavior( BehaviorDrag() );
+	//e4.applyBehavior( BehaviorDrag() );
+
+	e1.activateBehaviors();
+	e2.activateBehaviors();
+	e3.activateBehaviors();
+	//e4.activateBehaviors();
+
+
+	function track_coor(id, debug_id){
+		var tE = timerE(100);
+		insertValueE(tE.mapE(function(p){ 
+			return id+ ": " + get_style(id, "position") +
+				", top=" + get_style(id, "top") +
+				", left=" + get_style(id, "left") +
+				", zindex=" + get_style(id, "z-index")
+		}), debug_id,"innerHTML");	
+	}
+
+	//test1();
+
+}
+
+test1 = function(){
+	var test = receiverE();
+
+	var t2 = test.mapE(function(p){alert('p=' + p);});
+	
+	test.sendEvent('test');
+
+}
+</script>
+</body>
+
+</html>
