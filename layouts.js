@@ -121,3 +121,7 @@ Layouts.prototype.layouts = [
 			[0,0,0,0],
 			[1,1,1,1]]}
 ];
+
+Layouts.prototype.get_layout_maxnum = function(){
+	return (this.layouts.length - 1);
+}

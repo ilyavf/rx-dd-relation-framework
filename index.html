@@ -16,7 +16,7 @@
 
 
 <p>
-	-&gt; <b>Standard Layouts </b><br />
+	-&gt; <b><a href="#">Standard Layouts</a> </b><br />
 </p>
 
 <div id="cameras">Cameras:
@@ -56,19 +56,9 @@ jQ = jQuery.noConflict(true);
 function loader(){
 	debug_init();
 
-	var a = new Layouts({cell_size: 5});
 	
-	jQ(".layout + .0").html( a.generate_grid(0) );
-	jQ(".layout + .1").html( a.generate_grid(1) );
-	jQ(".layout + .2").html( a.generate_grid(2) );
-	jQ(".layout + .3").html( a.generate_grid(3) );
-	jQ(".layout + .4").html( a.generate_grid(4) );
-	jQ(".layout + .5").html( a.generate_grid(5) );
-	
-	jQ("#e1").html( a.generate_grid(5) );
+	//jQ("#e1").html( a.generate_grid(5) );
 
-	var b = new Layouts({cell_size: 30});
-	jQ("#video_container").html( b.generate_grid(3) );
 	
 	/*var e1 = new ElementObj('layout_0');
 	e1.applyBehavior( BehaviorResize() );
@@ -80,9 +70,14 @@ function loader(){
 	e1.applyBehavior( BehaviorDrag() );
 	e1.activateBehaviors();
 	
-	var lm = new Layout_manager(['layout_0','layout_1','layout_2','layout_3','layout_4','layout_5']);
+	var lm = new Layout_manager(
+		['layout_0','layout_1','layout_2','layout_3','layout_4','layout_5'],
+		'video_container'
+	);
 	
-	ConvertLayout('video_container');
+	//var b = new Layouts({cell_size: 30});
+	//jQ("#video_container").html( b.generate_grid(3) );
+	//ConvertLayout('video_container');
 
 }
 </script>

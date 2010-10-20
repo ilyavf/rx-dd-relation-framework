@@ -13,6 +13,7 @@ body{
 #choose_layouts .layout{
 	float: left;
 	margin-right: 10px;
+	cursor: pointer;
 }
 #cameras{
 	float: left;

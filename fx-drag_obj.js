@@ -66,8 +66,6 @@ ElementObj = function(id){
 	// To store full mdown+move+drop stream:
 	this.MStream = {};
 	
-	// make div positioned absolute:
-	this.set_drag_style(id);
 
 } // End of ElementObj.
 
@@ -203,6 +201,10 @@ ElementObj.prototype.applyBehavior = function(Behavior){
 
 // Activates all applied begaviors:
 ElementObj.prototype.activateBehaviors = function(){
+
+	// make div positioned absolute:
+	this.set_drag_style(this.id);
+
 	var self = this;
 	//redraw on event:
 	this.receiverRedraw.mapE(
