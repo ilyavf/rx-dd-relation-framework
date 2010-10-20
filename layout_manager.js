@@ -6,33 +6,41 @@ var Layout_manager = function(layouts, container_active_id){
 	// store layout info:
 	this.layouts_info = [];
 	
+	//this.init();
+	
+	this.layout_init_big	= new Layouts({cell_size: 30});
+	this.layout_init_small	= new Layouts({cell_size: 5});
+	
 	// Create layouts:
 	this.create_layouts(layouts);
-	
+
+}
+Layout_manager.prototype.init = function(){
 
 }
 Layout_manager.prototype.clickable = function(layout, click_handler){
 
+	var globals = {
+		layout_init_big:		this.layout_init_big,
+		container_active_id: 	this.container_active_id
+	}
+	
 	jQ("#"+layout.id).click( 
-		function(){ click_handler(layout); }
+		function(){ click_handler(layout, globals); }
 	);
 
 }
-Layout_manager.prototype.activate_layout = function(layout){
-	alert('You clicked on: ' + layout.id + ', ' + layout.type_num);
-	//alert('You clicked on: ' + layout);
+Layout_manager.prototype.activate_layout = function(layout, globals){
+	debug('You clicked on: ' + layout.id + ', ' + layout.type_num);
 	
-	return 0;
+	jQ("#"+globals.container_active_id).html( globals.layout_init_big.generate_grid( layout.type_num ) );
 	
-	var b = new Layouts({cell_size: 30});
-	jQ(this.container_active_id).html( b.generate_grid(3) );
-	
-	ConvertLayout('video_container');
+	ConvertLayout(globals.container_active_id);
 	
 }
 Layout_manager.prototype.create_layouts = function(layouts){
-
-	var a = new Layouts({cell_size: 5});
+	
+	var a = this.layout_init_small;
 	
 	var maxnum = a.get_layout_maxnum();
 	var layout_type_num = 0;
