@@ -38,7 +38,7 @@ var ConvertLayout = function(id){
 
 	for( var i = 0; i < drag_elements.length; i++){
 		for (var j = (i+1); j < drag_elements.length; j++){
-			var R1 = new Relation('R'+i+j, drag_elements[i], drag_elements[j], RelationFuncStop);
+			var R1 = new Relation('R'+i+j, drag_elements[i], drag_elements[j], RelationFuncStop); // RelationFuncMove
 			debug('- R'+i+j + ': ' + drag_elements[i].id + ', ' + drag_elements[j].id);
 		}
 			

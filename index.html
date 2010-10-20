@@ -1,15 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title1>Layouts</title1>
+	<title>Layouts</title>
 
 	<script type="text/javascript" src="../js/flapjax.js"></script>
 	<script type="text/javascript" src="../js/jquery.js"></script>
 	<script type="text/javascript" src="../js/debug.js"></script>
 	<script type="text/javascript" src="fx-drag_obj.js"></script>
 	<script type="text/javascript" src="layouts.js"></script>
+	<script type="text/javascript" src="layout_manager.js"></script>
 	<script type="text/javascript" src="convert_dynamic.js"></script>
-	<link href="style.css" type="text/css" rel="stylesheet">
+	<link href="style.css" type="text/css" rel="stylesheet" />
 </head>
 <body onload="loader();">
 
@@ -28,14 +29,14 @@
 </div>
 
 <div id="choose_layouts">
-	<p class="float">Standard Layouts: </p>
+	<p class="float">Standard <br />Layouts: </p>
 	<div class="layout 5 hidden">:</div>
 	<div id="layout_0" class="layout 0">0</div>
-	<div class="layout 1">1</div>
-	<div class="layout 2">2</div>
-	<div class="layout 3">3</div>
-	<div class="layout 4">4</div>
-	<div class="layout 5">5</div>
+	<div id="layout_1" class="layout 1">1</div>
+	<div id="layout_2" class="layout 2">2</div>
+	<div id="layout_3" class="layout 3">3</div>
+	<div id="layout_4" class="layout 4">4</div>
+	<div id="layout_5" class="layout 5">5</div>
 </div>
 
 <div id="video_container">
@@ -79,6 +80,7 @@ function loader(){
 	e1.applyBehavior( BehaviorDrag() );
 	e1.activateBehaviors();
 	
+	var lm = new Layout_manager(['layout_0','layout_1','layout_2','layout_3','layout_4','layout_5']);
 	
 	ConvertLayout('video_container');
 
