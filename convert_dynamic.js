@@ -8,9 +8,11 @@ Object.prototype.toString = function(){
 	return str + ' }';
 }
 
-var drag_elements = [];
 var clone_elements = [];
 var ConvertLayout = function(id){
+	var drag_elements = [];
+	var relations = [];
+
 	debug('[ConvertLayout]: id = ' + id, 'open');
 	var container_childs = jQ('#' + id + ' .grid_container div').each(
 		function(){
@@ -35,20 +37,29 @@ var ConvertLayout = function(id){
 	convert_position(grid_clone_id); //, id + '_grid_container'
 	
 	var e_wr = new ElementObj(grid_clone_id);
+	//e_wr.applyBehavior( BehaviorResize() );
+	//e_wr.activateBehaviors();
 
 	for( var i = 0; i < drag_elements.length; i++){
+	
+		// create relations between current i and all other elements:
 		for (var j = (i+1); j < drag_elements.length; j++){
 			var R1 = new Relation('R'+i+j, drag_elements[i], drag_elements[j], RelationFuncStop); // RelationFuncMove
 			debug('- R'+i+j + ': ' + drag_elements[i].id + ', ' + drag_elements[j].id);
+			relations.push(R1);
 		}
 			
+		// create StopInside relation for the current i element:
 		var R_w = new Relation('R_w'+i, e_wr, drag_elements[i], RelationFuncStopInside);
+		relations.push(R_w);
 		debug('- R_w'+i + ': ' + e_wr.id + ', ' + drag_elements[i].id);
 	}
 	
 	jQ("[id$='_clone_tmp']").remove();
 	
 	debug('', 'close');
+	
+	return {elements: drag_elements, relations: relations}
 }
 
 var create_dynamic = function(id){

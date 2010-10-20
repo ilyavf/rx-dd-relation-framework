@@ -55,30 +55,11 @@ jQ = jQuery.noConflict(true);
 
 function loader(){
 	debug_init();
-
-	
-	//jQ("#e1").html( a.generate_grid(5) );
-
-	
-	/*var e1 = new ElementObj('layout_0');
-	e1.applyBehavior( BehaviorResize() );
-	e1.applyBehavior( BehaviorDrag() );
-	e1.activateBehaviors();*/
-	
-	var e1 = new ElementObj('e1');
-	e1.applyBehavior( BehaviorResize() );
-	e1.applyBehavior( BehaviorDrag() );
-	e1.activateBehaviors();
 	
 	var lm = new Layout_manager(
 		['layout_0','layout_1','layout_2','layout_3','layout_4','layout_5'],
 		'video_container'
 	);
-	
-	//var b = new Layouts({cell_size: 30});
-	//jQ("#video_container").html( b.generate_grid(3) );
-	//ConvertLayout('video_container');
-
 }
 </script>
 

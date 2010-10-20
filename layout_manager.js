@@ -35,7 +35,8 @@ Layout_manager.prototype.activate_layout = function(layout, globals){
 	
 	jQ("#"+globals.container_active_id).html( globals.layout_init_big.generate_grid( layout.type_num ) );
 	
-	ConvertLayout(globals.container_active_id);
+	// returns elements and relations to be destroyed with next try:
+	var tmp = ConvertLayout(globals.container_active_id);
 	
 }
 Layout_manager.prototype.create_layouts = function(layouts){

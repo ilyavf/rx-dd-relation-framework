@@ -35,7 +35,7 @@ Layouts.prototype.style_init = function(){
 	}
 	
 	styles += '.grid_container{}';	//position: relative;
-	styles += '.' + this.prefix + 'cell{ display: inline; float: left; position: relative; margin: ' + cell_margin + 'px; background: #cdc;}';
+	styles += '.' + this.prefix + 'cell{ display: inline; float: left; position: relative; border: white solid ' + cell_margin + 'px; background: #cdc;}';
 	
 	//alert(styles);
 	jQ('body').prepend('<style>' + styles + '</style>');
