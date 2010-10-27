@@ -871,7 +871,7 @@ MMouseDMDStream = function(MdStream){
 			document.onmousedown=null;  
 			document.onmouseup=null;
 		}
-		debug('ENABLE TEXTSELECT');
+		//debug('ENABLE TEXTSELECT');
 		
 		return oneE({
 			drop: true
@@ -907,7 +907,7 @@ MMouseDownStream = function(elt_obj){
 			document.onmousedown=new Function ("return false");  
 			document.onmouseup=new Function ("return true");
 		}
-		debug('DISABLE TEXTSELECT');
+		//debug('DISABLE TEXTSELECT');
 		
 		
 		return info;
