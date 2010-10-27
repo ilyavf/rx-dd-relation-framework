@@ -933,7 +933,7 @@ function get_offset(id){
 function get_div_coor(id){
 	var offset = get_offset(id);
 	if (offset == null){
-		debug('SYSTEM ERROR: [get_div_coor] id=' + id + ': offset is null (' + offset + ')' );
+		alert('SYSTEM ERROR: [get_div_coor] id=' + id + ': offset is null (' + offset + ')' );
 	}
 	var div_coor = {
 		left:	offset.left,

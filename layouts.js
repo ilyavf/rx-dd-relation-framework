@@ -6,7 +6,7 @@ var Layouts = function(params){
 	// actual size of a cell in px:
 	this.cell_size 	= params.cell_size || 4;
 	this.cell_margin = params.cell_margin || 1;
-	this.grid_max	= params.grid_max || 16;
+	this.grid_max	= params.grid_max || 30;
 	
 	this.prefix = 'grid_' + this.cell_size + '__';
 	
@@ -119,7 +119,13 @@ Layouts.prototype.layouts = [
 			[1,1,1,1],
 			[2,0,2,0],
 			[0,0,0,0],
-			[1,1,1,1]]}
+			[1,1,1,1]]},
+	{	size: 3,
+		cells:[
+			[3,1,1,1],
+			[1,1,1],
+			[1,1,1],
+			[1,1,1,1,1,1]]}
 ];
 
 Layouts.prototype.get_layout_maxnum = function(){
