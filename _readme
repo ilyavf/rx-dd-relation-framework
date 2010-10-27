@@ -1,0 +1,7 @@
+Plan for layouts.
+
+1. Update ElementObj:
+	- add listener(s - ???) to recieve events 
+	- define function handlers for recieved events
+	- save current state(s ???)
+	- behave according to recieved events
