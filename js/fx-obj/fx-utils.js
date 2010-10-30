@@ -65,3 +65,12 @@ function obj_in_array(obj, arr){
 	}
 	return false;
 }
+function prop_in_obj(prop, obj){
+	if (typeof obj[prop] !== 'undefined'){
+		return true;
+	}
+	return false;
+}
+//var a = {'qwe': 0, asd: 2}
+//alert('prop in obj: ' + prop_in_obj('qwe',a));
+

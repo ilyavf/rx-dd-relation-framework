@@ -66,8 +66,30 @@ ElementObj = function(id){
 	// To store full mdown+move+drop stream:
 	this.MStream = {};
 	
+	
+	/** 
+	 * Event / listener functionality. 
+	 */
+	 
+	// array to store pairs {event_code: function}
+	this.event_reaction = {};
+	
 
 } // End of ElementObj.
+
+ElementObj.prototype.setEventReaction = function(event_code, func_handler){
+	var self = this;
+	this.event_reaction[event_code] = func_handler;
+	/*function (){
+		func_handler(self);
+	}*/
+	
+}
+ElementObj.prototype.sendEvent = function(event_code){
+	if (prop_in_obj(event_code, this.event_reaction) ){
+		this.event_reaction[event_code](this);
+	}
+}
 
 
 // Check all relations whether new coor are acceptable:

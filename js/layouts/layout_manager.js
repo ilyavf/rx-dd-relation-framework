@@ -1,4 +1,7 @@
-var Layout_manager = function(layouts, container_active_id){
+var Layout_manager = function(params){
+	var layouts = params.layouts || [];
+	var container_active_id = params.container_id || null;
+
 	debug('[layout_manager]: ' + layouts.length);
 	
 	this.container_active_id = container_active_id;
