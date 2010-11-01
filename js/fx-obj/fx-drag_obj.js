@@ -66,6 +66,9 @@ ElementObj = function(id){
 	// To store full mdown+move+drop stream:
 	this.MStream = {};
 	
+	// to be executed on mouse drop (mouseup):
+	this.onMDrop = function(){return true;}
+	
 	
 	/** 
 	 * Event / listener functionality. 
@@ -223,11 +226,17 @@ ElementObj.prototype.activateBehaviors = function(){
 	// Create full mdown+move+drop stream:
 	this.MStream = MMouseDMDStream(mdStream_detectBehavior);
 
+	// Bugfix: for some reason mouseup on document happens 6 times:
+	var mouseup_six_fix = 0;
+
 	this.MStream.mapE(
 		// has info {elt_obj, mm}:
 
 		function(info){
+			var tmp = mouseup_six_fix;
+			
 			if (info.elt_obj){
+				mouseup_six_fix = 1;
 
 				if (info.activeBehavior){
 					//apply behavior function on current info:
@@ -248,8 +257,23 @@ ElementObj.prototype.activateBehaviors = function(){
 
 				//self.relationFilters[0](behavior_result, self.elements);
 			}
+			
+			if (info.drop === true){
+				//debug_now('- drop is true');
+				if (mouseup_six_fix === 1){
+					mouseup_six_fix = 0;
+					debug_now('- self.onMDrop: ...');
+					
+					// execute on_mouse_drop function:
+					self.onMDrop();
+				}
+			}
 		}
 	);
+}
+
+ElementObj.prototype.addMDropFunc = function(func){
+	this.onMDrop = func;
 }
 
 
@@ -297,6 +321,8 @@ MMouseDMDStream = function(MdStream){
 		}
 		//debug('ENABLE TEXTSELECT');
 		
+		//debug_now('--- mouseup');
+		
 		return oneE({
 			drop: true
 		})
@@ -332,6 +358,7 @@ MMouseDownStream = function(elt_obj){
 			document.onmouseup=new Function ("return true");
 		}
 		//debug('DISABLE TEXTSELECT');
+		//debug_now('--- mousedown');
 		
 		
 		return info;

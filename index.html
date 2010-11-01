@@ -13,6 +13,8 @@
 	<script type="text/javascript" src="js/layouts/layouts.js"></script>
 	<script type="text/javascript" src="js/layouts/layout_manager.js"></script>
 	<script type="text/javascript" src="js/layouts/convert_dynamic.js"></script>
+	<script type="text/javascript" src="js/cams/cam.js"></script>
+	<script type="text/javascript" src="js/cams/cam_manager.js"></script>
 	<link href="style.css" type="text/css" rel="stylesheet" />
 </head>
 <body onload="loader();">
@@ -29,6 +31,8 @@
 	<div class="cam" id="cam_4">4</div>
 	<div class="cam" id="cam_5">5</div>
 	<div class="cam" id="cam_6">6</div>
+	<div class="clear"></div>
+</div>
 </div>
 
 <div id="choose_layouts">
@@ -46,7 +50,7 @@
 </div>
 
 <div id="video_container">
-	Main container:
+	video_container:
 </div>
 
 <div class="clear"></div>
@@ -59,12 +63,19 @@
 var jQ = {};
 jQ = jQuery.noConflict(true);
 
+var lm;
+var camMan;
+
 function loader(){
 	debug_init();
 	
-	var lm = new Layout_manager({
+	lm = new Layout_manager({
 		layouts: 		['layout_0','layout_1','layout_2','layout_3','layout_4','layout_5','layout_6'],
 		container_id: 	'video_container'
+	});
+	
+	camMan = new CamManager({
+		cam_container: 'cameras'
 	});
 	
 	//var e1 = new ElementObj('e1');
