@@ -10,11 +10,12 @@ var GLOBAL_DC = 2;
 
 //----------------------------------------------
 // // // //    - ELEMENT object:
-ElementObj = function(id){
+ElementObj = function(id, zindex){
 	var self = this;
 	
 	this.id = id;
 	this.elt = $(this.id);
+	this.zindex = zindex;
 
 
 	// for mouse:
@@ -177,7 +178,9 @@ ElementObj.prototype.set_drag_style = function(id, zindex){
 	set_style(id, 'margin', '0');
 	set_style(id, 'padding', '0');
 	set_style(id, 'border', '1px green solid');
-	//set_style(id, 'z-index', zindex);
+	if (typeof zindex !== 'undefined'){
+		set_style(id, 'z-index', zindex);
+	}
 }
 	
 	
@@ -193,7 +196,7 @@ ElementObj.prototype.applyBehavior = function(Behavior){
 ElementObj.prototype.activateBehaviors = function(){
 
 	// make div positioned absolute:
-	this.set_drag_style(this.id);
+	this.set_drag_style(this.id, this.zindex);
 
 	var self = this;
 	//redraw on event:

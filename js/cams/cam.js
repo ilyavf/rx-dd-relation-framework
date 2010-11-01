@@ -30,7 +30,7 @@ CamDynamic.prototype.init = function(){
 	
 	create_dynamic(this.div_id);
 		
-	var e1 = new ElementObj(this.div_id);
+	var e1 = new ElementObj(this.div_id, 50);
 	e1.applyBehavior( BehaviorDrag() );
 	e1.activateBehaviors();
 
