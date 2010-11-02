@@ -33,7 +33,8 @@ var ConvertLayout = function(id){
 	);
 	
 	// add stopping wrapper:
-	var grid_clone_id = clone_div_jq( jQ('#' + id + ' .grid_container'), id + '_grid_container' );
+	//var grid_clone_id = clone_div_jq( jQ('#' + id + ' .grid_container'), id + '_grid_container' );
+	var grid_clone_id = clone_div_jq( id, 'grid_container' );
 	convert_position(grid_clone_id); //, id + '_grid_container'
 	
 	var e_wr = new ElementObj(grid_clone_id);
@@ -106,17 +107,25 @@ var clone_div = function(id, suffix){
 	jQ('#' + id).after(clone_html);
 }
 
-var clone_div_jq = function(div_jq, id, suffix){
-	var suffix = suffix || '_clone';
+var clone_div_jq = function(parent_id, class_name, suffix){
+	var div_jq = jQ('#' + parent_id + ' .' + class_name);
+	var div_parent = jQ('#'+parent_id);
+	
+	//debug_now( div_jq );
+	debug_now( 'div_jq.width=' + div_jq.width() );
+	
+	var suffix = suffix || '_clone2';
+	var id = parent_id + '_' + class_name + suffix;
 
-	var clone_div = '<div id="'+id+suffix+'" style="' +
+	var clone_div = '<div id="' + id + '" style="' +
 			'width: ' + div_jq.width() + 'px;' +
-			'height: ' + div_jq.height() + 'px;" ' +
+			'height: ' + div_jq.height() + 'px;' +
 	'"></div>';
 	
-	div_jq.before(clone_div);
+	//div_jq.before(clone_div);
+	jQ('#'+parent_id).prepend(clone_div);
 	
-	return id+suffix;
+	return id;
 }
 
 

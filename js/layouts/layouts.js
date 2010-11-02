@@ -83,7 +83,7 @@ Layouts.prototype.generate_grid = function(layout){
 		//grid += '<div class="clear"></div>\n';
 	}
 	
-	grid = '<div class="grid_container ' + this.prefix + height + '_' + width + '">\n' + grid + '</div>';
+	grid = '<div id="' + grid_id + '_grid_container" class="grid_container ' + this.prefix + height + '_' + width + '">\n' + grid + '</div>';
 	//alert(grid);
 	
 	return grid;

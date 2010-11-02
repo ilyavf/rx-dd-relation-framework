@@ -14,7 +14,8 @@ ElementObj = function(id, zindex){
 	var self = this;
 	
 	this.id = id;
-	this.elt = $(this.id);
+	//this.elt = $(this.id);
+	this.elt = document.getElementById(this.id);
 	this.zindex = zindex;
 
 
@@ -295,7 +296,7 @@ MMouseDMDStream = function(MdStream){
 		// dx and dy are offset of the mouse relative to top and left position of the box
 
 		// register mousemove:
-		return $E(document,"mousemove").mapE(
+		return extractEventE(document,"mousemove").mapE(
 			function(mm){
 				//debug('[MMouseStream.mousemove]: id: ' + info.elt_obj.id + ', mm.x: ' + mm.clientX);
 				return {
@@ -336,12 +337,16 @@ MMouseDMDStream = function(MdStream){
 
 
 // Stream - mouse_down on element obj:
-MMouseDownStream = function(elt_obj){
+var MMouseDownStream = function(elt_obj){
 	var elt_id = elt_obj.id;
-	var elt = elt_obj.elt;
+	var elt = elt_obj.elt || getObj(elt_id);
+	
+	if (!elt){
+		debug_now('ERROR: no elt found for MMouseDownStream: elt_id=' + elt_id + ', elt=' + elt_obj.elt);
+	}
 
 	// register mousedown:
-	var md = $E(elt,"mousedown").mapE(function(md){
+	var md = extractEventE(elt,"mousedown").mapE(function(md){
 		var dx = md.clientX - elt_obj.left();
 		var dy = md.clientY - elt_obj.top();
 		var info = {

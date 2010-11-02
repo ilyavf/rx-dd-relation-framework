@@ -53,8 +53,12 @@ function set_height(id, val){
 	jQ('#'+id).css('height', val + 'px');
 }
 function set_offset(id, offset){
-	jQ('#'+id).css('left', offset.left + 'px');
-	jQ('#'+id).css('top', offset.top + 'px');
+	if (offset){
+		jQ('#'+id).css('left', offset.left + 'px');
+		jQ('#'+id).css('top', offset.top + 'px');
+	} else {
+		debug_now('ERROR: offset is null. [set_offset]: id=' + id + ', offset=' + offset);
+	}
 }
 
 
