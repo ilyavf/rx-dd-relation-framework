@@ -79,8 +79,10 @@ ElementObj = function(id, zindex){
 	// array to store pairs {event_code: function}
 	this.event_reaction = {};
 	
+	this.pipeline_activate();
 
 } // End of ElementObj.
+
 
 ElementObj.prototype.setEventReaction = function(event_code, func_handler){
 	var self = this;
@@ -268,6 +270,13 @@ ElementObj.prototype.activateBehaviors = function(){
 					mouseup_six_fix = 0;
 					debug_now('- self.onMDrop: ...');
 					
+					// Send event to all ElementObj instances:
+					self.pipeline.sendEvent({
+						event: 'drop', 
+						mm: info.mm, 
+						id: self.id 
+					});
+					
 					// execute on_mouse_drop function:
 					self.onMDrop();
 				}
@@ -278,6 +287,37 @@ ElementObj.prototype.activateBehaviors = function(){
 
 ElementObj.prototype.addMDropFunc = function(func){
 	this.onMDrop = func;
+}
+
+
+ElementObj.prototype.pipeline = receiverE();
+
+ElementObj.prototype.pipeline_activate = function(){
+	var self = this;
+	this.pipeline.mapE(
+		function(info){
+			if (
+				self.id != info.id
+				&& self.is_inside(info.mm) 
+			){
+				var old = jQ('#' + self.id).html();
+				jQ('#' + self.id).html(old + ', ' + info);
+			}
+		}
+	);
+};
+
+ElementObj.prototype.is_inside = function(mm){
+	debug_now(this.coor());
+	debug_now('x=' + mm.clientX + ', y=' + mm.clientY);
+	if (mm.clientX > this.left() 
+		&& mm.clientX < this.right()
+		&& mm.clientY > this.top()
+		&& mm.clientY < this.bottom() 
+	){
+		return true;
+	}
+	return false;
 }
 
 
@@ -328,7 +368,8 @@ MMouseDMDStream = function(MdStream){
 		//debug_now('--- mouseup');
 		
 		return oneE({
-			drop: true
+			drop: true,
+			mm: mu
 		})
 	});
 
