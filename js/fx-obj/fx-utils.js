@@ -15,7 +15,8 @@ function get_offset(id){
 function get_div_coor(id){
 	var offset = get_offset(id);
 	if (offset == null){
-		alert('SYSTEM ERROR: [get_div_coor] id=' + id + ': offset is null (' + offset + ')' );
+		debug_now('SYSTEM ERROR: [get_div_coor] id=' + id + ': offset is null (' + offset + ')' );
+		return false;
 	}
 	var div_coor = {
 		left:	offset.left,

@@ -78,8 +78,6 @@ ElementObj = function(id, zindex){
 	 
 	// array to store pairs {event_code: function}
 	this.event_reaction = {};
-	
-	this.pipeline_activate();
 
 } // End of ElementObj.
 
@@ -198,6 +196,9 @@ ElementObj.prototype.applyBehavior = function(Behavior){
 // Activates all applied begaviors:
 ElementObj.prototype.activateBehaviors = function(){
 
+	// activate also pipeline:
+	this.pipeline_activate();
+
 	// make div positioned absolute:
 	this.set_drag_style(this.id, this.zindex);
 
@@ -264,7 +265,7 @@ ElementObj.prototype.activateBehaviors = function(){
 				//self.relationFilters[0](behavior_result, self.elements);
 			}
 			
-			if (info.drop === true){
+			if (info.event === 'drop'){
 				//debug_now('- drop is true');
 				if (mouseup_six_fix === 1){
 					mouseup_six_fix = 0;
@@ -281,6 +282,14 @@ ElementObj.prototype.activateBehaviors = function(){
 					self.onMDrop();
 				}
 			}
+			if (info.event === 'move'){
+				// Send event to all ElementObj instances:
+				self.pipeline.sendEvent({
+					event: 'move', 
+					mm: info.mm, 
+					id: self.id 
+				});				
+			}
 		}
 	);
 }
@@ -296,24 +305,45 @@ ElementObj.prototype.pipeline_activate = function(){
 	var self = this;
 	this.pipeline.mapE(
 		function(info){
+			// DROP
 			if (
-				self.id != info.id
+				info.event === 'drop'
+				&& self.id != info.id
 				&& self.is_inside(info.mm) 
 			){
-				var old = jQ('#' + self.id).html();
-				jQ('#' + self.id).html(old + ', ' + info);
+				//var old = jQ('#' + self.id).html();
+				jQ('#' + self.id).html(info.id);
+			}
+			// MOUSE OVER:
+			if (info.event === 'move' 
+				&& self.id != info.id
+			){
+				if ( self.is_inside(info.mm) ){
+					//debug_now(info.event + ', ' + self.id + ', - INSIDE');
+					//jQ('#' + self.id).css("border", "1px red dotted;");
+					jQ('#' + self.id).css("background-color", "red");
+					
+				} else {
+					//debug_now(info.event + ', ' + self.id + ', - OUT');
+					//jQ('#' + self.id).css("border", "1px green green");
+					jQ('#' + self.id).css("background-color", "");
+				}
 			}
 		}
 	);
 };
 
 ElementObj.prototype.is_inside = function(mm){
-	debug_now(this.coor());
-	debug_now('x=' + mm.clientX + ', y=' + mm.clientY);
-	if (mm.clientX > this.left() 
-		&& mm.clientX < this.right()
-		&& mm.clientY > this.top()
-		&& mm.clientY < this.bottom() 
+	var coor = this.coor();
+	if (coor === false || typeof mm == 'undefined'){
+		return false;
+	}
+	//debug_now('mm.clientX=' + mm.clientX);
+	
+	if (mm.clientX > coor.left 
+		&& mm.clientX < coor.right
+		&& mm.clientY > coor.top
+		&& mm.clientY < coor.bottom 
 	){
 		return true;
 	}
@@ -340,6 +370,7 @@ MMouseDMDStream = function(MdStream){
 			function(mm){
 				//debug('[MMouseStream.mousemove]: id: ' + info.elt_obj.id + ', mm.x: ' + mm.clientX);
 				return {
+					event: 'move',
 					elt_obj: elt_obj,
 					md: info.md,
 					mm: mm,
@@ -368,6 +399,7 @@ MMouseDMDStream = function(MdStream){
 		//debug_now('--- mouseup');
 		
 		return oneE({
+			event: 'drop',
 			drop: true,
 			mm: mu
 		})
