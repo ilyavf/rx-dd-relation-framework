@@ -23,7 +23,7 @@ var ConvertLayout = function(id){
 			
 			//if (drag_elements.length > 1) return 0;
 			
-			var e1 = new ElementObj(this.id);
+			var e1 = new ElementObj(this.id, {pipeline_in: 1});
 			e1.applyBehavior( BehaviorResize() );
 			e1.applyBehavior( BehaviorDrag() );
 			e1.activateBehaviors();

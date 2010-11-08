@@ -10,13 +10,19 @@ var GLOBAL_DC = 2;
 
 //----------------------------------------------
 // // // //    - ELEMENT object:
-ElementObj = function(id, zindex){
+ElementObj = function(id, params){
+	this.params = params || {};
 	var self = this;
 	
 	this.id = id;
 	//this.elt = $(this.id);
 	this.elt = document.getElementById(this.id);
-	this.zindex = zindex;
+	this.zindex = this.params.zindex || params || null;
+	
+	this.pipeline_params = {
+		activate_out: 	this.params.pipeline_out || false,
+		activate_in:	this.params.pipeline_in || false
+	}
 
 
 	// for mouse:
@@ -78,6 +84,10 @@ ElementObj = function(id, zindex){
 	 
 	// array to store pairs {event_code: function}
 	this.event_reaction = {};
+	
+	if (self.pipeline_params.activate_in){
+		this.pipeline_activate_in();
+	}
 
 } // End of ElementObj.
 
@@ -196,9 +206,6 @@ ElementObj.prototype.applyBehavior = function(Behavior){
 // Activates all applied begaviors:
 ElementObj.prototype.activateBehaviors = function(){
 
-	// activate also pipeline:
-	this.pipeline_activate();
-
 	// make div positioned absolute:
 	this.set_drag_style(this.id, this.zindex);
 
@@ -272,23 +279,27 @@ ElementObj.prototype.activateBehaviors = function(){
 					debug_now('- self.onMDrop: ...');
 					
 					// Send event to all ElementObj instances:
-					self.pipeline.sendEvent({
-						event: 'drop', 
-						mm: info.mm, 
-						id: self.id 
-					});
+					if (self.pipeline_params.activate_out){
+						self.pipeline.sendEvent({
+							event: 'drop', 
+							mm: info.mm, 
+							id: self.id 
+						});
+					}
 					
 					// execute on_mouse_drop function:
 					self.onMDrop();
 				}
 			}
 			if (info.event === 'move'){
-				// Send event to all ElementObj instances:
-				self.pipeline.sendEvent({
-					event: 'move', 
-					mm: info.mm, 
-					id: self.id 
-				});				
+				if (self.pipeline_params.activate_out){
+					// Send event to all ElementObj instances:
+					self.pipeline.sendEvent({
+						event: 'move', 
+						mm: info.mm, 
+						id: self.id 
+					});
+				}
 			}
 		}
 	);
@@ -301,10 +312,15 @@ ElementObj.prototype.addMDropFunc = function(func){
 
 ElementObj.prototype.pipeline = receiverE();
 
-ElementObj.prototype.pipeline_activate = function(){
+ElementObj.prototype.pipeline_activate_in = function(){
 	var self = this;
 	this.pipeline.mapE(
 		function(info){
+			if (!self.pipeline_params.activate_in){
+				//debug_now('pipeline is not active for id=' + self.id);
+				return false;
+			}
+			
 			// DROP
 			if (
 				info.event === 'drop'

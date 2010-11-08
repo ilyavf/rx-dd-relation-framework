@@ -1,3 +1,11 @@
+/**
+ * ToDo: 
+ *	- 2010.11.08: switch onclick activating layouts to flapjax and get rid of global_layouts_tmp.
+ */
+
+// to store links for current layouts to be destroyed later:
+var global_layouts_tmp = { elements: [] };
+
 var Layout_manager = function(params){
 	var layouts = params.layouts || [];
 	var container_active_id = params.container_id || null;
@@ -34,12 +42,28 @@ Layout_manager.prototype.clickable = function(layout, click_handler){
 
 }
 Layout_manager.prototype.activate_layout = function(layout, globals){
-	debug('You clicked on: ' + layout.id + ', ' + layout.type_num);
+	debug_now('You clicked on: ' + layout.id + ', ' + layout.type_num);
+	debug_now('- current layouts_tmp: ' + global_layouts_tmp.elements.length);
 	
 	jQ("#"+globals.container_active_id).html( globals.layout_init_big.generate_grid( layout.type_num ) );
 	
 	// returns elements and relations to be destroyed with next try:
 	var tmp = ConvertLayout(globals.container_active_id);
+	
+	//destroy old layout:
+	if (global_layouts_tmp.elements && global_layouts_tmp.elements.length){
+		debug_now('- old layouts: ' + global_layouts_tmp.elements.length);
+	}
+	if (global_layouts_tmp.elements){
+		for (var i in global_layouts_tmp.elements){
+			global_layouts_tmp.elements[i].pipeline_params = {};
+			//debug_now('- destroy old id=' + global_layouts_tmp.elements[i].id);
+		}
+	}
+	
+	// save for future deconstruction:
+	global_layouts_tmp = tmp;
+	debug_now('Save layout links: ' + global_layouts_tmp.elements.length);
 	
 }
 Layout_manager.prototype.create_layouts = function(layouts){
