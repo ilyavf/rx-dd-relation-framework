@@ -10,7 +10,7 @@ var GLOBAL_DC = 2;
 
 //----------------------------------------------
 // // // //    - ELEMENT object:
-ElementObj = function(id, params){
+var ElementObj = function(id, params){
 	this.params = params || {};
 	var self = this;
 	
@@ -315,35 +315,63 @@ ElementObj.prototype.pipeline = receiverE();
 ElementObj.prototype.pipeline_activate_in = function(){
 	var self = this;
 	this.pipeline.mapE(
+	
+		// @param {event, mm, id}
 		function(info){
+		
 			if (!self.pipeline_params.activate_in){
 				//debug_now('pipeline is not active for id=' + self.id);
 				return false;
 			}
 			
-			// DROP
-			if (
-				info.event === 'drop'
-				&& self.id != info.id
-				&& self.is_inside(info.mm) 
-			){
-				//var old = jQ('#' + self.id).html();
-				jQ('#' + self.id).html(info.id);
-			}
-			// MOUSE OVER:
-			if (info.event === 'move' 
-				&& self.id != info.id
-			){
-				if ( self.is_inside(info.mm) ){
-					//debug_now(info.event + ', ' + self.id + ', - INSIDE');
-					//jQ('#' + self.id).css("border", "1px red dotted;");
-					jQ('#' + self.id).css("background-color", "red");
+			switch (info.event){
+			
+				// DROP
+				case 'drop':
+					if (
+						self.id != info.id
+						&& self.is_inside(info.mm) 
+					){
+						//var old = jQ('#' + self.id).html();
+						jQ('#' + self.id).html(info.id);
+					}
+					break;
 					
-				} else {
-					//debug_now(info.event + ', ' + self.id + ', - OUT');
-					//jQ('#' + self.id).css("border", "1px green green");
-					jQ('#' + self.id).css("background-color", "");
-				}
+				// MOUSE OVER:
+				case 'move':
+				
+					if(self.id != info.id){
+					
+						if ( self.is_inside(info.mm) ){
+							//debug_now(info.event + ', ' + self.id + ', - INSIDE');
+							//jQ('#' + self.id).css("border", "1px red dotted;");
+							jQ('#' + self.id).css("background-color", "red");
+							
+						} else {
+							//debug_now(info.event + ', ' + self.id + ', - OUT');
+							//jQ('#' + self.id).css("border", "1px green green");
+							jQ('#' + self.id).css("background-color", "");
+						}
+					}
+					break;
+				
+				case 'cursor':
+					if ( self.is_inside(info.mm) ){
+						var cursor_style = 'move';
+						var nearborder = self.is_nearborder(info.mm)
+						if (nearborder){
+							cursor_style = nearborder;
+						}
+						document.body.style.cursor = cursor_style;
+						info.event = false;
+					} else {
+						document.body.style.cursor = "";
+					}
+					break;
+					
+				case 'test':
+					debug_now('TEST ' + self.id);
+					break;
 			}
 		}
 	);
@@ -365,6 +393,36 @@ ElementObj.prototype.is_inside = function(mm){
 	}
 	return false;
 }
+
+ElementObj.prototype.is_nearborder = function(mm){
+	var dc = 10;
+	
+	var coor = this.coor();
+	if (coor === false || typeof mm == 'undefined'){
+		return false;
+	}
+	//debug_now('mm.clientX=' + mm.clientX);
+	
+	if (coor.left < mm.clientX && mm.clientX < coor.left + dc){
+		return "w-resize";
+	}
+	
+	if (coor.right - dc < mm.clientX && mm.clientX < coor.right){
+		return "e-resize";
+	}
+	
+	if (coor.top < mm.clientY && mm.clientY < coor.top + dc){
+		return "n-resize";
+	}
+	
+	if (coor.bottom - dc < mm.clientY && mm.clientY < coor.bottom){
+		return "s-resize";
+	}
+	
+	return false;
+}
+
+
 
 
 
@@ -464,5 +522,9 @@ var MMouseDownStream = function(elt_obj){
 }
 
 
-
+extractEventE(document,"mousemove").mapE(
+	function(mm){
+		ElementObj.prototype.pipeline.sendEvent({event:'cursor', mm: mm, id: 'test'});
+	}
+);
 

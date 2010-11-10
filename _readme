@@ -17,7 +17,9 @@ Plan for layouts.
 	- define Event Function handlers for recieved events
 	- save current state(s ???)
 	- behave according to recieved events
-	
+
+Implemented pipeline.	
+
 ---------------------------------------------------------	
 Questions:
 
