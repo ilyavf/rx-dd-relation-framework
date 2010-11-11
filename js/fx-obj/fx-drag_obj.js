@@ -17,7 +17,7 @@ var ElementObj = function(id, params){
 	this.id = id;
 	//this.elt = $(this.id);
 	this.elt = document.getElementById(this.id);
-	this.zindex = this.params.zindex || params || null;
+	this.zindex = this.params.zindex || null;
 	
 	this.pipeline_params = {
 		activate_out: 	this.params.pipeline_out || false,
@@ -189,7 +189,8 @@ ElementObj.prototype.set_drag_style = function(id, zindex){
 	set_style(id, 'margin', '0');
 	set_style(id, 'padding', '0');
 	set_style(id, 'border', '1px green solid');
-	if (typeof zindex !== 'undefined'){
+	if (typeof zindex !== 'undefined' && zindex !== null){
+		debug('zindex=' + zindex);
 		set_style(id, 'z-index', zindex);
 	}
 }
