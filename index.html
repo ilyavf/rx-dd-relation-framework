@@ -82,6 +82,17 @@ function loader(){
 	//e1.setEventReaction('test', function(o){ alert('id = ' + o.id); });
 	//e1.sendEvent('test');
 }
+
+Object.prototype.toString = function(){
+	return '';
+	var str = 'Object { ';
+	var delim = '';
+	for (x in this){
+		str += delim + x + ': ' + this[x];
+		delim = ', ';
+	}
+	return str + ' }';
+}
 </script>
 
 

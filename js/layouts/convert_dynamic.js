@@ -1,13 +1,3 @@
-Object.prototype.toString = function(){
-	var str = 'Object { ';
-	var delim = '';
-	for (x in this){
-		str += delim + x + ': ' + this[x];
-		delim = ', ';
-	}
-	return str + ' }';
-}
-
 var clone_elements = [];
 var ConvertLayout = function(id){
 	var drag_elements = [];
@@ -45,7 +35,7 @@ var ConvertLayout = function(id){
 	
 		// create relations between current i and all other elements:
 		for (var j = (i+1); j < drag_elements.length; j++){
-			var R1 = new Relation('R'+i+j, drag_elements[i], drag_elements[j], RelationFuncStop); // RelationFuncMove
+			var R1 = new Relation('R'+i+j, drag_elements[i], drag_elements[j], RelationFuncStop); // RelationFuncMove RelationFuncStop
 			debug('- R'+i+j + ': ' + drag_elements[i].id + ', ' + drag_elements[j].id);
 			relations.push(R1);
 		}
