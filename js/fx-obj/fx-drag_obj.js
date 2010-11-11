@@ -110,6 +110,9 @@ ElementObj.prototype.sendEvent = function(event_code){
 // Check all relations whether new coor are acceptable:
 ElementObj.prototype.checkRelations = function(info){
 	var i = this.relations.length;
+	if (i == 0){
+		return info;
+	}
 	debug("checkRelations for " + this.id + ": " + i, 'open');
 
 	// save current element in chain request (to be skipped in other relations):
@@ -331,7 +334,7 @@ ElementObj.prototype.pipeline_activate_in = function(){
 				case 'drop':
 					if (
 						self.id != info.id
-						&& self.is_inside(info.mm) 
+						&& self.is_inside(info.mm, info.event)
 					){
 						//var old = jQ('#' + self.id).html();
 						jQ('#' + self.id).html(info.id);
@@ -378,12 +381,16 @@ ElementObj.prototype.pipeline_activate_in = function(){
 	);
 };
 
-ElementObj.prototype.is_inside = function(mm){
+ElementObj.prototype.is_inside = function(mm, event){
 	var coor = this.coor();
 	if (coor === false || typeof mm == 'undefined'){
 		return false;
 	}
-	//debug_now('mm.clientX=' + mm.clientX);
+	if (event == 'drop'){
+		debug_now('--drop: mm: ' + (typeof mm) );
+		debug_now('--drop: mm.clientX: ' + (typeof mm.clientX) );
+		//debug_now('::: mm=' + dump(mm) );
+	}
 	
 	if (mm.clientX > coor.left 
 		&& mm.clientX < coor.right

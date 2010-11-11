@@ -81,18 +81,36 @@ function loader(){
 	//var e1 = new ElementObj('e1');
 	//e1.setEventReaction('test', function(o){ alert('id = ' + o.id); });
 	//e1.sendEvent('test');
+
+	debug_now('===' + dump([1,5,'7sd',9]) );
+	debug_now('===' + dump({s:3, r:7}) );
+	var f = function(){var a = 5; return a;};
+	debug_now('===' + dump(f) );
 }
 
-Object.prototype.toString = function(){
+//Object.prototype.toString
+var dump = function(obj){
 	//return '';
-	var str = 'Object { ';
+	if (typeof obj === 'undefined'){
+		obj = this;
+	}
+	if (typeof obj != 'object'){
+		return obj;
+	}
+	var str = (typeof obj) + ' { ';
+	//var str = (typeof obj) + ': ' + obj.constructor.toString().replace(/function ([A-z]*).*/, '$1') + ' { ';
+	
 	var delim = '';
-	for (x in this){
-		str += delim + x + ': ' + this[x];
+	for (x in obj){
+		str += delim + x + ': ';
+		if (typeof obj[x] !== 'unknown'){
+			str += dump(obj[x]);
+		}
 		delim = ', ';
 	}
 	return str + ' }';
 }
+
 </script>
 
 
