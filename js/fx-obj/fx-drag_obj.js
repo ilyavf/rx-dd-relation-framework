@@ -215,12 +215,19 @@ ElementObj.prototype.activateBehaviors = function(){
 
 	var self = this;
 	//redraw on event:
-	this.receiverRedraw.mapE(
+	var redrawE = this.receiverRedraw.mapE(
 		function(info){
 			self.checkRelations(info);
 			self.redraw(info);
+			//debug_now('-cursor: ' + info.cursor);
+			return info;
 		}
 	);
+	var cursorE = redrawE.mapE(function(p){
+		return (p.cursor) 
+	});
+		
+	insertValueE(cursorE, document.body,"style","cursor");
 
 	// Detect which behavior is active for md event:
 	var mdStream_detectBehavior = this.mdStream.mapE(
