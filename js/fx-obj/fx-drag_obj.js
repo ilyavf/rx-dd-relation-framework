@@ -411,6 +411,7 @@ ElementObj.prototype.is_inside = function(mm, event){
 
 ElementObj.prototype.is_nearborder = function(mm){
 	var dc = 10;
+	var result = '';
 	
 	var coor = this.coor();
 	if (coor === false || typeof mm == 'undefined'){
@@ -418,23 +419,29 @@ ElementObj.prototype.is_nearborder = function(mm){
 	}
 	//debug_now('mm.clientX=' + mm.clientX);
 	
-	if (coor.left < mm.clientX && mm.clientX < coor.left + dc){
-		return "w-resize";
-	}
-	
-	if (coor.right - dc < mm.clientX && mm.clientX < coor.right){
-		return "e-resize";
-	}
-	
 	if (coor.top < mm.clientY && mm.clientY < coor.top + dc){
-		return "n-resize";
+		result =  "n";
 	}
 	
 	if (coor.bottom - dc < mm.clientY && mm.clientY < coor.bottom){
-		return "s-resize";
+		result =  "s";
 	}
 	
-	return false;
+	if (coor.left < mm.clientX && mm.clientX < coor.left + dc){
+		result += "w";
+	}
+	
+	if (coor.right - dc < mm.clientX && mm.clientX < coor.right){
+		result +=  "e";
+	}
+	
+	if (result) {
+		result += '-resize';
+	} else {
+		result = false;
+	}
+	
+	return result;
 }
 
 

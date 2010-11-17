@@ -1,3 +1,17 @@
+[16.11.2010]
+Slava:
+1. Resize:
+	- diagonal
+	- ratio setting
+	- propagate from layout to all cells
+2. Layouts:
+	- organize to have several layouts per page
+3. API:
+	- save layout
+	- ...
+	- commit to resize video
+
+---------------------------------------------------------	
 [09.11.2010]
 Pipeline general:
 	- name possible options properly
