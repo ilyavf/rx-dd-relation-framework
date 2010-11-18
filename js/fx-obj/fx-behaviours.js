@@ -92,42 +92,52 @@ BehaviorResize = function(){
 		var t = false;
 		var h = false;
 		
-		var get_new = function(border, once, ratio){
+		var get_new = function(border, ratio, once){
 			var once = once || false;
 			var ratio = ratio || false;
 			switch (border){
 				case 'left':
 					l = info.mm.clientX - info.dx;
 					w = w_old + (l_old - l);
+					if (!once){
+						get_new('bottom', 1, 1);
+					}
 					break;
 				case 'right':
-					if (ratio){
-						w = parseInt(h * self.ratio);
+					if (ratio && once){
+						w = parseInt(h * ratio);
 						debug_now('get_new right: ' + w);
 					} else {
 						w = info.mm.clientX - l_old + 5;
+						if (!once){
+							get_new('bottom', 1, 1);
+						}
 					}
 					break;
 				case 'top':
 					t = info.mm.clientY - info.dy;
 					h = h_old + (t_old - t);
 					if (!once){
-						get_new('right', 1, 1);
+						get_new('right', ratio, 1);
 					}
 					break;
 				case 'bottom':
-					h = info.mm.clientY - t_old + 5;
+					if (ratio){
+						h = parseInt(w / ratio);
+					} else {
+						h = info.mm.clientY - t_old + 5;
+					}
 					if (!once){
-						get_new('right', 1, 1);
+						get_new('right', ratio, 1);
 					}
 					break;
 				case 'nw':
-					get_new('top');
-					get_new('left');
+					get_new('top', ratio, 1);
+					get_new('left', ratio, 1);
 					break;
 				case 'ne':
-					get_new('top');
-					get_new('right');
+					get_new('top', ratio, 1);
+					get_new('right', ratio, 1);
 					break;
 				case 'sw':
 					get_new('bottom');
@@ -139,7 +149,7 @@ BehaviorResize = function(){
 					break;
 			}
 		}
-		get_new(border);
+		get_new(border, self.ratio);
 
 		var new_coor = {};
 		if (l != false) {

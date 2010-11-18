@@ -173,7 +173,10 @@ ElementObj.prototype.redraw = function(info){
 		var l = this.left();
 		var w = parseInt(this.width());
 		var h = this.height();
+		var r = this.right();
 		var b = this.bottom();
+		
+		debug_now('t= ' + t + ', h=' + h + ', new_t=' + new_t + ', new_h=' + new_h);
 		
 		var max_w = parseInt(new_h * ratio);
 		var max_h = parseInt(new_w / ratio);
@@ -187,11 +190,11 @@ ElementObj.prototype.redraw = function(info){
 		} else {
 			var eff_h = h;
 		}
-		if (max_w > eff_w) max_w = eff_w;
-		if (max_h > eff_h) max_h = eff_h;
+		if (max_w > eff_w) max_w = parseInt(eff_w);
+		if (max_h > eff_h) max_h = parseInt(eff_h);
 		
 		var min_t = b - max_h;
-		//var max_l = 
+		var min_l = r - max_w; 
 		
 		// ratio restriction for resize:
 		if (new_h || new_w){
@@ -209,10 +212,22 @@ ElementObj.prototype.redraw = function(info){
 					new_h = max_h;
 				}
 			}
+			// - left:
+			if (new_l){
+				if (new_w > max_w){
+					new_l = min_l;
+					new_w = max_w;
+				}
+			}
+			if (!new_l){
+				if (new_w > max_w){
+					new_w = max_w;
+				}
+			}
 			
 		}
 		
-		debug_now('t= ' + t + ', h=' + h + ', new_t=' + new_t + ', new_h=' + new_h);
+		debug_now('corrected: new_t=' + new_t + ', new_h=' + new_h);
 		
 		if (new_l){
 			this.left( parseInt(new_l) );
