@@ -34,6 +34,9 @@ BehaviorDrag = function(){
 
 BehaviorResize = function(){
 	var self = this;
+	
+	// ratio = width / height
+	this.ratio = 3/2;
 
 	// activateFunc:
 	var startResize = function(info){
@@ -89,21 +92,34 @@ BehaviorResize = function(){
 		var t = false;
 		var h = false;
 		
-		var get_new = function(border){
+		var get_new = function(border, once, ratio){
+			var once = once || false;
+			var ratio = ratio || false;
 			switch (border){
 				case 'left':
 					l = info.mm.clientX - info.dx;
 					w = w_old + (l_old - l);
 					break;
 				case 'right':
-					w = info.mm.clientX - l_old + 5;
+					if (ratio){
+						w = parseInt(h * self.ratio);
+						debug_now('get_new right: ' + w);
+					} else {
+						w = info.mm.clientX - l_old + 5;
+					}
 					break;
 				case 'top':
 					t = info.mm.clientY - info.dy;
 					h = h_old + (t_old - t);
+					if (!once){
+						get_new('right', 1, 1);
+					}
 					break;
 				case 'bottom':
 					h = info.mm.clientY - t_old + 5;
+					if (!once){
+						get_new('right', 1, 1);
+					}
 					break;
 				case 'nw':
 					get_new('top');

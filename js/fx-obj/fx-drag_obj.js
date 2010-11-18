@@ -148,6 +148,8 @@ ElementObj.prototype.checkRelations = function(info){
 
 
 ElementObj.prototype.redraw = function(info){
+	var ratio = 3/2;
+
 	info.dependants = info.dependants || 'none';
 	if (info.new_coor){
 		var debug_str = '--- redraw [' + info.elt_obj.id + ']: ';
@@ -162,17 +164,67 @@ ElementObj.prototype.redraw = function(info){
 		debug_str += ' dependants: ' +  info.dependants;
 		debug(debug_str);
 		
-		if (info.new_coor.left){
-			this.left(info.new_coor.left);
+		var new_t = info.new_coor.top || false;
+		var new_l = info.new_coor.left || false;
+		var new_w = info.new_coor.width || false;
+		var new_h = info.new_coor.height || false;
+		
+		var t = parseInt(this.top());
+		var l = this.left();
+		var w = parseInt(this.width());
+		var h = this.height();
+		var b = this.bottom();
+		
+		var max_w = parseInt(new_h * ratio);
+		var max_h = parseInt(new_w / ratio);
+		if (new_w){
+			var eff_w = new_w;
+		} else {
+			var eff_w = w;
 		}
-		if (info.new_coor.top){
-			this.top(info.new_coor.top);
+		if (new_h){
+			var eff_h = new_h;
+		} else {
+			var eff_h = h;
 		}
-		if (info.new_coor.width){
-			this.width(info.new_coor.width);
+		if (max_w > eff_w) max_w = eff_w;
+		if (max_h > eff_h) max_h = eff_h;
+		
+		var min_t = b - max_h;
+		//var max_l = 
+		
+		// ratio restriction for resize:
+		if (new_h || new_w){
+		
+			// - north:
+			if (new_t){
+				if (new_h > max_h){
+					new_t = min_t;
+					new_h = max_h;
+				}
+			}
+			// - south:
+			if (!new_t){
+				if (new_h > max_h){
+					new_h = max_h;
+				}
+			}
+			
 		}
-		if (info.new_coor.height){
-			this.height(info.new_coor.height);
+		
+		debug_now('t= ' + t + ', h=' + h + ', new_t=' + new_t + ', new_h=' + new_h);
+		
+		if (new_l){
+			this.left( parseInt(new_l) );
+		}
+		if (new_t){
+			this.top( parseInt(new_t) );
+		}
+		if (new_w){
+			this.width( parseInt(new_w) );
+		}
+		if (new_h){
+			this.height( parseInt(new_h) );
 		}
 	}
 	// redraw all dependants if exist:
