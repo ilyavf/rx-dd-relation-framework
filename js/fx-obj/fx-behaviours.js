@@ -106,11 +106,10 @@ BehaviorResize = function(){
 				case 'right':
 					if (ratio && once){
 						w = parseInt(h * ratio);
-						debug_now('get_new right: ' + w);
 					} else {
 						w = info.mm.clientX - l_old + 5;
 						if (!once){
-							get_new('bottom', 1, 1);
+							get_new('bottom', ratio, 1);
 						}
 					}
 					break;
@@ -122,13 +121,13 @@ BehaviorResize = function(){
 					}
 					break;
 				case 'bottom':
-					if (ratio){
+					if (ratio && once){
 						h = parseInt(w / ratio);
 					} else {
 						h = info.mm.clientY - t_old + 5;
-					}
-					if (!once){
-						get_new('right', ratio, 1);
+						if (!once){
+							get_new('right', ratio, 1);
+						}
 					}
 					break;
 				case 'nw':
