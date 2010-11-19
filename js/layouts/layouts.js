@@ -26,13 +26,15 @@ Layouts.prototype.style_init = function(){
 	
 	for (var i = 1; i <= grid_max; i++){
 		
+		var cell_h = i * parseInt(cell_size/this.ratio);
+		
 		// rectangle (container for cells):
 		for (var j = 1; j <= grid_max; j++){
-			styles += '.' + this.prefix + i + '_' + j + '{ height: ' + i*cell_size/this.ratio + 'px; width: ' + j*cell_size + 'px; }\n';
+			styles += '.' + this.prefix + i + '_' + j + '{ height: ' + cell_h + 'px; width: ' + j*cell_size + 'px; }\n';
 		}
 		
 		// square (cells):
-		styles += '.' + this.prefix + i + '{ height: ' + (i*cell_size/this.ratio - m_corr) + 'px; width: ' + (i*cell_size - m_corr) + 'px; }\n';
+		styles += '.' + this.prefix + i + '{ height: ' + (cell_h - m_corr) + 'px; width: ' + (i*cell_size - m_corr) + 'px; }\n';
 	}
 	
 	styles += '.grid_container{}';	//position: relative;
