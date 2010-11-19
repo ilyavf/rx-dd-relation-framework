@@ -1,9 +1,10 @@
 var clone_elements = [];
-var ConvertLayout = function(id){
+var ConvertLayout = function(id, ratio){
 	var drag_elements = [];
 	var relations = [];
+	var ratio = ratio || 1;
 
-	debug('[ConvertLayout]: id = ' + id, 'open');
+	debug('[ConvertLayout]: id = ' + id + ', ratio=' + ratio, 'open');
 	var container_childs = jQ('#' + id + ' .grid_container div').each(
 		function(){
 			debug('ConvertLayout: ' + this.id );
@@ -17,6 +18,7 @@ var ConvertLayout = function(id){
 			e1.applyBehavior( BehaviorResize() );
 			e1.applyBehavior( BehaviorDrag() );
 			e1.activateBehaviors();
+			e1.set_ratio(ratio); //, 'init_redraw'
 			
 			drag_elements.push(e1);
 		}

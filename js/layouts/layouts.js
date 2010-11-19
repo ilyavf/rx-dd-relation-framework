@@ -7,6 +7,7 @@ var Layouts = function(params){
 	this.cell_size 	= params.cell_size || 4;
 	this.cell_margin = params.cell_margin || 1;
 	this.grid_max	= params.grid_max || 30;
+	this.ratio = params.ratio || 1;
 	
 	this.prefix = 'grid_' + this.cell_size + '__';
 	
@@ -25,13 +26,13 @@ Layouts.prototype.style_init = function(){
 	
 	for (var i = 1; i <= grid_max; i++){
 		
-		// square:
-		styles += '.' + this.prefix + i + '{ height: ' + (i*cell_size - m_corr) + 'px; width: ' + (i*cell_size - m_corr) + 'px; }\n';
-		
-		// rectangle:
+		// rectangle (container for cells):
 		for (var j = 1; j <= grid_max; j++){
-			styles += '.' + this.prefix + i + '_' + j + '{ height: ' + i*cell_size + 'px; width: ' + j*cell_size + 'px; }\n';
+			styles += '.' + this.prefix + i + '_' + j + '{ height: ' + i*cell_size/this.ratio + 'px; width: ' + j*cell_size + 'px; }\n';
 		}
+		
+		// square (cells):
+		styles += '.' + this.prefix + i + '{ height: ' + (i*cell_size/this.ratio - m_corr) + 'px; width: ' + (i*cell_size - m_corr) + 'px; }\n';
 	}
 	
 	styles += '.grid_container{}';	//position: relative;

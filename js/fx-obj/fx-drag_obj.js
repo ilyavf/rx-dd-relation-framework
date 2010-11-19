@@ -28,6 +28,8 @@ var ElementObj = function(id, params){
 	// for mouse:
 	this.dx;
 	this.dy;
+	
+	this.ratio = false;
 
 	// coordinates:
 	this.coor = function(){return get_div_coor(this.id)};
@@ -146,9 +148,22 @@ ElementObj.prototype.checkRelations = function(info){
 	return info;
 }
 
+// define ratio (width / height):
+ElementObj.prototype.set_ratio = function(ratio, init_redraw){
+	this.ratio = ratio;
+	if (init_redraw){
+		this.redraw({
+			new_coor: {
+				width: this.width(),
+				height: this.height()
+			},
+			elt_obj: this
+		});
+	}
+}
 
 ElementObj.prototype.redraw = function(info){
-	var ratio = 3/2;
+	var ratio = this.ratio;
 
 	info.dependants = info.dependants || 'none';
 	if (info.new_coor){
@@ -176,7 +191,7 @@ ElementObj.prototype.redraw = function(info){
 		var r = this.right();
 		var b = this.bottom();
 		
-		debug_now('t= ' + t + ', h=' + h + ', new_t=' + new_t + ', new_h=' + new_h);
+		//debug_now('t= ' + t + ', h=' + h + ', new_t=' + new_t + ', new_h=' + new_h);
 		
 		var max_w = parseInt(new_h * ratio);
 		var max_h = parseInt(new_w / ratio);
@@ -227,7 +242,7 @@ ElementObj.prototype.redraw = function(info){
 			
 		}
 		
-		debug_now('corrected: new_t=' + new_t + ', new_h=' + new_h);
+		//debug_now('corrected: new_t=' + new_t + ', new_h=' + new_h);
 		
 		if (new_l){
 			this.left( parseInt(new_l) );

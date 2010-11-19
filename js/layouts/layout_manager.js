@@ -9,8 +9,10 @@ var global_layouts_tmp = { elements: [] };
 var Layout_manager = function(params){
 	var layouts = params.layouts || [];
 	var container_active_id = params.container_id || null;
+	this.ratio = params.ratio || false;
+	this.ratio_thumb = params.ratio_thumb || false;
 
-	debug('[layout_manager]: ' + layouts.length);
+	debug_now('[layout_manager]: ' + layouts.length + ', ratio=' + params.ratio);
 	
 	this.container_active_id = container_active_id;
 	
@@ -19,8 +21,8 @@ var Layout_manager = function(params){
 	
 	//this.init();
 	
-	this.layout_init_big	= new Layouts({cell_size: 30});
-	this.layout_init_small	= new Layouts({cell_size: 5});
+	this.layout_init_big	= new Layouts({cell_size: 30, ratio: this.ratio});
+	this.layout_init_small	= new Layouts({cell_size: 5,  ratio: this.ratio_thumb});
 	
 	// Create layouts:
 	this.create_layouts(layouts);
@@ -33,7 +35,8 @@ Layout_manager.prototype.clickable = function(layout, click_handler){
 
 	var globals = {
 		layout_init_big:		this.layout_init_big,
-		container_active_id: 	this.container_active_id
+		container_active_id: 	this.container_active_id,
+		ratio: 					this.ratio
 	}
 	
 	jQ("#"+layout.id).click( 
@@ -48,7 +51,8 @@ Layout_manager.prototype.activate_layout = function(layout, globals){
 	jQ("#"+globals.container_active_id).html( globals.layout_init_big.generate_grid( layout.type_num ) );
 	
 	// returns elements and relations to be destroyed with next try:
-	var tmp = ConvertLayout(globals.container_active_id);
+	debug_now('r=' + globals.ratio);
+	var tmp = ConvertLayout(globals.container_active_id, globals.ratio);
 	
 	//destroy old layout:
 	if (global_layouts_tmp.elements && global_layouts_tmp.elements.length){
