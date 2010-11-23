@@ -1,9 +1,9 @@
 [16.11.2010]
 Slava:
 1. Resize:
-	- diagonal
-	- ratio setting
-	- propagate from layout to all cells
+	- diagonal DONE
+	- ratio setting DONE
+	- propagate from layout to all cells DONE
 2. Layouts:
 	- organize to have several layouts per page
 3. API:
@@ -27,10 +27,10 @@ Plan for layouts.
 [27.10.2010] 
 
 1. Update ElementObj:
-	- add listener(s - ???) to recieve events 
-	- define Event Function handlers for recieved events
+	- add listener(s - ???) to receive events 
+	- define Event Function handlers for received events
 	- save current state(s ???)
-	- behave according to recieved events
+	- behave according to received events
 
 Implemented pipeline.	
 

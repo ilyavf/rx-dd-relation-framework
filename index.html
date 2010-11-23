@@ -56,7 +56,7 @@
 <div class="clear"></div>
 
 
-	<div id="e1" class="e1">e1</div>
+	<!--div id="e1" class="e1">e1</div-->
 	
 	
 <script language="javascript">
@@ -72,8 +72,11 @@ function loader(){
 	lm = new Layout_manager({
 		layouts: 		['layout_0','layout_1','layout_2','layout_3','layout_4','layout_5','layout_6'],
 		container_id: 	'video_container',
-		ratio:			3/2,
-		ratio_thumb:	1.1
+		
+		ratio:			1.5,
+		ratio_thumb:	1.1,
+		cell_size:		40,
+		cell_size_thumb: 5
 	});
 	
 	camMan = new CamManager({
@@ -84,10 +87,10 @@ function loader(){
 	//e1.setEventReaction('test', function(o){ alert('id = ' + o.id); });
 	//e1.sendEvent('test');
 
-	debug_now('===' + dump([1,5,'7sd',9]) );
-	debug_now('===' + dump({s:3, r:7}) );
-	var f = function(){var a = 5; return a;};
-	debug_now('===' + dump(f) );
+	//debug_now('===' + dump([1,5,'7sd',9]) );
+	//debug_now('===' + dump({s:3, r:7}) );
+	//var f = function(){var a = 5; return a;};
+	//debug_now('===' + dump(f) );
 }
 
 //Object.prototype.toString

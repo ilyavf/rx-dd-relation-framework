@@ -51,7 +51,7 @@ Layouts.prototype.generate_grid = function(layout){
 	var width = 0;
 	var height = 0;
 	
-	var grid_id = 'grid-' + parseInt(1000 * Math.random());
+	var grid_id = 'grid-' + parseInt(10000 * Math.random());
 	
 	for (var i in layout_info.cells){
 		var row = layout_info.cells[i];

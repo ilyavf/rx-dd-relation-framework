@@ -11,6 +11,8 @@ var Layout_manager = function(params){
 	var container_active_id = params.container_id || null;
 	this.ratio = params.ratio || false;
 	this.ratio_thumb = params.ratio_thumb || false;
+	this.cell_size  = params.cell_size || 30;
+	this.cell_size_thumb  = params.cell_size_thumb || 5;
 
 	debug_now('[layout_manager]: ' + layouts.length + ', ratio=' + params.ratio);
 	
@@ -21,8 +23,8 @@ var Layout_manager = function(params){
 	
 	//this.init();
 	
-	this.layout_init_big	= new Layouts({cell_size: 30, ratio: this.ratio});
-	this.layout_init_small	= new Layouts({cell_size: 5,  ratio: this.ratio_thumb});
+	this.layout_init_big	= new Layouts({cell_size: this.cell_size, ratio: this.ratio});
+	this.layout_init_small	= new Layouts({cell_size: this.cell_size_thumb,  ratio: this.ratio_thumb});
 	
 	// Create layouts:
 	this.create_layouts(layouts);
