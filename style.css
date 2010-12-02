@@ -2,7 +2,7 @@ body{
 	margin-left:10px;
 }
 
-#choose_layouts .layout, #video_container{
+#choose_layouts .layout, .video_container{
 	border: dashed blue 1px;
 	padding: 10px;
 	margin: 5px 0;
@@ -31,11 +31,33 @@ body{
 #choose_layouts, #video_container {
 	margin-left: 70px;
 }
-#video_container{
-	min-height: 300px;
+
+#video_containers{
+	position:relative;
+	border: dotted red 1px;
+	margin-left: 60px;
+}
+.video_container{
+	min-height: 50px;
 	/*width: 482px;*/
 	display: inline-block;
+	position: relative;
+	/*top: 225px;*/
 }
+#vc_1{
+	/*left: 70px;*/
+}
+#vc_2{
+	/*left: 460px;*/
+}
+#vc_3{
+	/*left: 650px;*/
+}
+
+#vc_selectors input {
+	margin-left: 180px;
+}
+
 
 .clear {
 	clear: both;

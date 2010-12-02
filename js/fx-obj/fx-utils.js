@@ -7,9 +7,18 @@ function get_width(id){
 function get_height(id){
 	return jQ('#'+id).height();
 }
-function get_offset(id){
+function get_offset(id, startpos_id){
+	var startpos_id = startpos_id || null;
+	debug('[get_offset]: id=' + id + ', startpos_id=' + startpos_id, 'open');
 	var offset = jQ('#'+id).offset();
-	//debug('[get_offset]: id=' + id + ', offset=' + offset);
+	if (startpos_id && startpos_id != 'document'){
+		// IN_PROCESS
+		var startpos_offset = jQ('#'+startpos_id).offset();
+		debug('startpos_offset=' + dump(startpos_offset) );
+		offset.top -= startpos_offset.top;
+		offset.left -= startpos_offset.left;
+	}
+	debug('offset=' + dump(offset), 'close');
 	return offset;
 }
 function get_div_coor(id){
@@ -61,6 +70,17 @@ function set_offset(id, offset){
 		debug_now('ERROR: offset is null. [set_offset]: id=' + id + ', offset=' + offset);
 	}
 }
+
+/*/ modify left/right relatively to start point:
+function set_coor_val_with_startpos(coor_name, coor_val, startpos_id){
+	if (startpos_id && startpos_id != 'document'){
+		// IN_PROCESS
+		var startpos_offset = jQ('#'+startpos_id).offset();
+		debug('startpos_offset=' + dump(startpos_offset) );
+		offset.top -= startpos_offset.top;
+		offset.left -= startpos_offset.left;
+	}
+}*/
 
 
 function obj_in_array(obj, arr){

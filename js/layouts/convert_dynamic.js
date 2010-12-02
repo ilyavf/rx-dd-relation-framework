@@ -1,20 +1,22 @@
 var clone_elements = [];
 var ConvertLayout = function(id, ratio){
+	var layout_container_id = id;
+	var ratio = ratio || 1;
+	
 	var drag_elements = [];
 	var relations = [];
-	var ratio = ratio || 1;
 
 	debug('[ConvertLayout]: id = ' + id + ', ratio=' + ratio, 'open');
 	var container_childs = jQ('#' + id + ' .grid_container div').each(
 		function(){
-			debug('ConvertLayout: ' + this.id );
+			debug('ConvertLayout: ' + this.id + ', layout_container_id=' + layout_container_id);
 			
-			create_dynamic(this.id);
+			create_dynamic(this.id, layout_container_id);
 			
 			
 			//if (drag_elements.length > 1) return 0;
 			
-			var e1 = new ElementObj(this.id, {pipeline_in: 1});
+			var e1 = new ElementObj(this.id, {pipeline_in: 1, startpos_id: layout_container_id});
 			e1.applyBehavior( BehaviorResize() );
 			e1.applyBehavior( BehaviorDrag() );
 			e1.activateBehaviors();
@@ -27,7 +29,9 @@ var ConvertLayout = function(id, ratio){
 	// add stopping wrapper:
 	//var grid_clone_id = clone_div_jq( jQ('#' + id + ' .grid_container'), id + '_grid_container' );
 	var grid_clone_id = clone_div_jq( id, 'grid_container' );
-	convert_position(grid_clone_id); //, id + '_grid_container'
+	debug('grid_container', 'open');
+	convert_position(grid_clone_id, null, layout_container_id); //, id + '_grid_container'
+	debug('','close');
 	
 	var e_wr = new ElementObj(grid_clone_id);
 	//e_wr.applyBehavior( BehaviorResize() );
@@ -55,23 +59,25 @@ var ConvertLayout = function(id, ratio){
 	return {elements: drag_elements, relations: relations}
 }
 
-var create_dynamic = function(id){
+var create_dynamic = function(id, startpos_id){
+	debug_now('create_dynamic: id=' + id + ', startpos_id=' + startpos_id);
 	
 	// the present div is not absolutely positioned,
 	// thus not to break current layout we create a clone of it:
 	clone_div(id, '_clone_tmp');
 	
-	convert_position(id);
+	convert_position(id, null, startpos_id);
 
 }
 
-var convert_position = function(id, source_id){
+var convert_position = function(id, source_id, startpos_id){
 	var source_id = source_id || id;
+	var startpos_id = startpos_id || 'document';
 
-	debug('[convert_position]: id = ' + id, 'open' );
+	debug('[convert_position]: id = ' + id + ', startpos_id=' + startpos_id, 'open' );
 	
 	debug('- getting offset:');
-	var offset = get_offset(source_id);
+	var offset = get_offset(source_id, startpos_id);
 	
 	debug('- setting offset to: ' + offset);
 	set_offset(id, offset);

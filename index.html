@@ -49,11 +49,26 @@
 	<div id="layout_8" class="layout 8">8</div>
 </div>
 
-<div id="video_container">
-	video_container:
+<div id="vc_selectors">
+	<input name="vc_selector" value="1" type="radio">1</input>
+	<input name="vc_selector" value="2" type="radio">2</input>
+	<input name="vc_selector" value="3" type="radio">3</input>
 </div>
 
-<div class="clear"></div>
+<div id="video_containers">
+
+	<div id="vc_1" class="video_container">
+		video_container:
+	</div>
+	<div id="vc_2" class="video_container">
+		video_container 2:
+	</div>
+	<div id="vc_3" class="video_container">
+		video_container 3:
+	</div>
+	
+	<div class="clear"></div>
+</div>
 
 
 	<!--div id="e1" class="e1">e1</div-->
@@ -70,13 +85,33 @@ function loader(){
 	debug_init();
 	
 	lm = new Layout_manager({
-		layouts: 		['layout_0','layout_1','layout_2','layout_3','layout_4','layout_5','layout_6'],
-		container_id: 	'video_container',
-		
-		ratio:			1.5,
-		ratio_thumb:	1.1,
-		cell_size:		40,
-		cell_size_thumb: 5
+		line_thumbs: {
+			ids: 	['layout_0','layout_1','layout_2','layout_3','layout_4','layout_5','layout_6'],
+			container_id: "",
+			container_style: "",
+			ratio:		1.1,
+			cell_size: 	5
+		},
+		container_id_prefix: "vc_",
+		container_style: "video_container",
+		layouts:{
+			'1':
+			{container_num: 	'1',
+			ratio:			1.5,
+			cell_size:		30,
+			init_type: 0},
+			
+			'2': {container_num: 	'2',
+			ratio:			0.8,
+			cell_size:		15,
+			init_type: 3},
+			
+			'3': {container_num: 	'3',
+			ratio:			1.1,
+			cell_size:		20,
+			init_type: 5}
+		},
+		selector: "vc_selector"
 	});
 	
 	camMan = new CamManager({

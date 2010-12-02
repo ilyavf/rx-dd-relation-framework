@@ -6,55 +6,78 @@
 // to store links for current layouts to be destroyed later:
 var global_layouts_tmp = { elements: [] };
 
+/**
+ *
+ * @param params {line_thumbs: {ids, ratio, cell_size}, layouts: [{container_id, ratio, cell_size}, ...]}
+ */
 var Layout_manager = function(params){
-	var layouts = params.layouts || [];
-	var container_active_id = params.container_id || null;
-	this.ratio = params.ratio || false;
-	this.ratio_thumb = params.ratio_thumb || false;
-	this.cell_size  = params.cell_size || 30;
-	this.cell_size_thumb  = params.cell_size_thumb || 5;
-
-	debug_now('[layout_manager]: ' + layouts.length + ', ratio=' + params.ratio);
+	this.line_thumbs 			= params.line_thumbs || {ids:[]};
+	this.line_thumbs.ratio 		= this.line_thumbs.ratio || false;
+	this.line_thumbs.cell_size  = this.line_thumbs.cell_size || 5;
 	
-	this.container_active_id = container_active_id;
+	this.layouts = params.layouts || [];
+	
+	this.container_id_prefix = params.container_id_prefix || 'undefined';
+	
+	this.selector_name = params.selector || 'none';
+
+	debug_now('[layout_manager]: line_thumbs: ' + this.line_thumbs + ', ratio=' + this.line_thumbs.ratio);
 	
 	// store layout info:
 	this.layouts_info = [];
 	
-	//this.init();
+	this.init();
 	
-	this.layout_init_big	= new Layouts({cell_size: this.cell_size, ratio: this.ratio});
-	this.layout_init_small	= new Layouts({cell_size: this.cell_size_thumb,  ratio: this.ratio_thumb});
-	
-	// Create layouts:
-	this.create_layouts(layouts);
 
 }
 Layout_manager.prototype.init = function(){
+	
+	this.layout_init_small	= new Layouts({
+		cell_size: this.line_thumbs.cell_size,  
+		ratio: this.line_thumbs.ratio
+	});
+	
+	// Create layouts:
+	this.create_layouts(this.line_thumbs.ids);
+	
+	// Initialize big layouts:
+	for (var i in this.layouts){
+		var l = this.layouts[i];
+		l.obj = new Layouts({cell_size: l.cell_size, ratio: l.ratio});
+		if (typeof l.init_type != 'undefined'){
+			this.activate_layout(l.init_type, this, i);
+		}
+	}
 
 }
 Layout_manager.prototype.clickable = function(layout, click_handler){
-
-	var globals = {
-		layout_init_big:		this.layout_init_big,
-		container_active_id: 	this.container_active_id,
-		ratio: 					this.ratio
-	}
+	var self = this;
 	
 	jQ("#"+layout.id).click( 
-		function(){ click_handler(layout, globals); }
+		function(){ click_handler(layout.type_num, self); }
 	);
 
 }
-Layout_manager.prototype.activate_layout = function(layout, globals){
-	debug_now('You clicked on: ' + layout.id + ', ' + layout.type_num);
+Layout_manager.prototype.activate_layout = function(layout_type_num, LM, selector_val){
+	
+	var selector_val = selector_val || jQ("input[name="+LM.selector_name+"]:checked").val();
+	var container_id = LM.container_id_prefix + selector_val;
+	
+	debug_now('You clicked on: ' + layout_type_num + ', container_id=' + container_id);
 	debug_now('- current layouts_tmp: ' + global_layouts_tmp.elements.length);
 	
-	jQ("#"+globals.container_active_id).html( globals.layout_init_big.generate_grid( layout.type_num ) );
+	debug_now('- selector_val=' + selector_val);
+	if (!LM.layouts[selector_val]){
+		return 0;
+	}
+	var layout_init_big = LM.layouts[selector_val].obj;
+	var ratio = LM.layouts[selector_val].ratio;
+	
+	jQ("#"+container_id).html( layout_init_big.generate_grid( layout_type_num ) );
 	
 	// returns elements and relations to be destroyed with next try:
-	debug_now('r=' + globals.ratio);
-	var tmp = ConvertLayout(globals.container_active_id, globals.ratio);
+	debug_now('r=' + ratio);
+	var tmp = ConvertLayout(container_id, ratio);
 	
 	//destroy old layout:
 	if (global_layouts_tmp.elements && global_layouts_tmp.elements.length){

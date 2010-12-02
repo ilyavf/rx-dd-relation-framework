@@ -23,7 +23,12 @@ var ElementObj = function(id, params){
 		activate_out: 	this.params.pipeline_out || false,
 		activate_in:	this.params.pipeline_in || false
 	}
-
+	
+	// use this element as a start point for coor change:
+	this.startpos_id = this.params.startpos_id || null;
+	this.startpos_dx = 0;
+	this.startpos_dy = 0;
+	this.init_startpos();
 
 	// for mouse:
 	this.dx;
@@ -35,11 +40,11 @@ var ElementObj = function(id, params){
 	this.coor = function(){return get_div_coor(this.id)};
 	this.new_coor = {};
 	this.left = function(new_left){
-		if (new_left) {set_left(this.id, new_left)};
+		if (new_left) {set_left(this.id, new_left + this.startpos_dx - 1)}; // experimental (-1) correction.
 		return this.coor().left;
 	}
 	this.top = function(new_top){
-		if (new_top) {set_top(this.id, new_top)};
+		if (new_top) {set_top(this.id, new_top + this.startpos_dy - 1)};
 		return this.coor().top;
 	}
 	this.width = function(new_width){
@@ -108,6 +113,14 @@ ElementObj.prototype.sendEvent = function(event_code){
 	}
 }
 
+ElementObj.prototype.init_startpos = function(){
+	if (this.startpos_id){
+		var startpos_offset = jQ('#'+this.startpos_id).offset();
+		this.startpos_dx = - startpos_offset.left;
+		this.startpos_dy = - startpos_offset.top;
+	}
+}
+
 
 // Check all relations whether new coor are acceptable:
 ElementObj.prototype.checkRelations = function(info){
@@ -164,6 +177,8 @@ ElementObj.prototype.set_ratio = function(ratio, init_redraw){
 
 ElementObj.prototype.redraw = function(info){
 	var ratio = this.ratio;
+	var min_h = 40;
+	var min_w = 40;
 
 	info.dependants = info.dependants || 'none';
 	if (info.new_coor){
@@ -211,6 +226,9 @@ ElementObj.prototype.redraw = function(info){
 		var min_t = b - max_h;
 		var min_l = r - max_w; 
 		
+		var max_t = b - min_h;
+		var max_l = r - min_w; 
+		
 		// ratio restriction for resize:
 		if (new_h || new_w){
 		
@@ -237,6 +255,18 @@ ElementObj.prototype.redraw = function(info){
 			if (!new_l){
 				if (new_w > max_w){
 					new_w = max_w;
+				}
+			}
+		
+			// minimum size restrictions:
+			if (new_w < min_w){
+				new_w = min_w;
+				new_h = parseInt(new_w / ratio);
+				if (new_t){
+					new_t = b - new_h;
+				}
+				if (new_l){
+					new_l = max_l;
 				}
 			}
 			
@@ -267,6 +297,14 @@ ElementObj.prototype.redraw = function(info){
 
 
 ElementObj.prototype.set_drag_style = function(id, zindex){
+	if (typeof zindex !== 'undefined' && zindex !== null){
+		debug('zindex=' + zindex);
+		set_style(id, 'z-index', zindex);
+	}
+	if (get_style(id, 'position') == 'absolute'){
+		return 0;
+	}
+	debug('!!!!! set_drag_style for id=' + id);
 	//var coor = get_div_coor(id);
 	set_offset(id, get_offset(id));
 	set_style(id, 'position', 'absolute');
@@ -274,10 +312,6 @@ ElementObj.prototype.set_drag_style = function(id, zindex){
 	set_style(id, 'margin', '0');
 	set_style(id, 'padding', '0');
 	set_style(id, 'border', '1px green solid');
-	if (typeof zindex !== 'undefined' && zindex !== null){
-		debug('zindex=' + zindex);
-		set_style(id, 'z-index', zindex);
-	}
 }
 	
 	
@@ -406,6 +440,7 @@ ElementObj.prototype.addMDropFunc = function(func){
 ElementObj.prototype.pipeline = receiverE();
 
 ElementObj.prototype.pipeline_activate_in = function(){
+	debug_now('pipeline_activate_in: id=' + this.id);
 	var self = this;
 	this.pipeline.mapE(
 	
