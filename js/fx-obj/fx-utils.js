@@ -22,6 +22,7 @@ function get_offset(id, startpos_id){
 	return offset;
 }
 function get_div_coor(id){
+	debug('[get_div_coor('+id+')]');
 	var offset = get_offset(id);
 	if (offset == null){
 		debug_now('SYSTEM ERROR: [get_div_coor] id=' + id + ': offset is null (' + offset + ')' );

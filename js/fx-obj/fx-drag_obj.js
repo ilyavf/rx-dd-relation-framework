@@ -37,22 +37,46 @@ var ElementObj = function(id, params){
 	this.ratio = false;
 
 	// coordinates:
-	this.coor = function(){return get_div_coor(this.id)};
+	this._coor = {
+		left:	'',
+		right:	'',
+		top:	'',
+		bottom:	'',
+		width:	'',
+		height:	''
+	};
+	
+	this.coor = function(){ return this._coor};
+	this.get_real_coor = function(){debug('[get_real_coor]'); return get_div_coor(this.id)};
+	this.set_real_coor = function(){ this._coor = this.get_real_coor(); };
+	this.set_real_coor();
 	this.new_coor = {};
 	this.left = function(new_left){
-		if (new_left) {set_left(this.id, new_left + this.startpos_dx - 1)}; // experimental (-1) correction.
+		if (new_left) {
+			set_left(this.id, new_left + this.startpos_dx - 1); // experimental (-1) correction.
+			this.set_real_coor();
+		};
 		return this.coor().left;
 	}
 	this.top = function(new_top){
-		if (new_top) {set_top(this.id, new_top + this.startpos_dy - 1)};
+		if (new_top) {
+			set_top(this.id, new_top + this.startpos_dy - 1);
+			this.set_real_coor();
+		};
 		return this.coor().top;
 	}
 	this.width = function(new_width){
-		if (new_width) {set_width(this.id, new_width)};
+		if (new_width) {
+			set_width(this.id, new_width);
+			this.set_real_coor();
+		};
 		return this.coor().width;
 	}
 	this.height = function(new_height){
-		if (new_height) {set_height(this.id, new_height)};
+		if (new_height) {
+			set_height(this.id, new_height);
+			this.set_real_coor();
+		};
 		return this.coor().height;
 	}
 	this.right 	= function(){return this.coor().right;}
@@ -470,6 +494,7 @@ ElementObj.prototype.pipeline_activate_in = function(){
 				
 					if(self.id != info.id){
 					
+						debug('[move]');
 						if ( self.is_inside(info.mm) ){
 							//debug_now(info.event + ', ' + self.id + ', - INSIDE');
 							//jQ('#' + self.id).css("border", "1px red dotted;");
