@@ -7,6 +7,7 @@ var GLOBAL_DC = 2;
 //----------------------------------------------
 // // // //    - ENVIRONMENT object:
 
+//var global_elem = {};
 
 //----------------------------------------------
 // // // //    - ELEMENT object:
@@ -15,6 +16,7 @@ var ElementObj = function(id, params){
 	var self = this;
 	
 	this.id = id;
+	//global_elem[id] = this;
 	//this.elt = $(this.id);
 	this.elt = document.getElementById(this.id);
 	this.zindex = this.params.zindex || null;

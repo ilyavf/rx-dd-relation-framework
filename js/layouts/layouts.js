@@ -1,5 +1,10 @@
+/**
+ * Create a layout with one of the existing pattern.
+ * @method	generate_grid	: generates floating div structure inside a container div.
+ * 		- Cells' width and height are set according to given params. 
+ */
 
-var Layouts = function(params){
+var Layout = function(params){
 
 	var params = params || {};
 	
@@ -13,7 +18,9 @@ var Layouts = function(params){
 	
 	this.style_init();
 }
-Layouts.prototype.style_init = function(){
+
+// Generates html style set for this layout grid and adds it to the DOM (right after <body>).
+Layout.prototype.style_init = function(){
 
 	var cell_size 	= this.cell_size;
 	var cell_margin = this.cell_margin;
@@ -38,14 +45,17 @@ Layouts.prototype.style_init = function(){
 	}
 	
 	styles += '.grid_container{}';	//position: relative;
-	styles += '.' + this.prefix + 'cell{ display: inline; float: left; position: relative; border: white solid ' + cell_margin + 'px; background: #cdc;}';
+	styles += '.' + this.prefix + 'cell{ float: left; border: white solid ' + cell_margin + 'px; background: #cdc;}';
+	// removed "display: inline; position: relative; "
 	
 	//alert(styles);
 	jQ('body').prepend('<style>' + styles + '</style>');
 	
 };
-Layouts.prototype.generate_grid = function(layout){
-	var layout_info = this.layouts[layout] || layout;
+
+// Generates floating div structure inside a container div.
+Layout.prototype.generate_grid = function(layout){
+	var layout_info = this.layout_types[layout] || layout;
 	
 	var grid = '';
 	var width = 0;
@@ -91,7 +101,7 @@ Layouts.prototype.generate_grid = function(layout){
 	
 	return grid;
 }
-Layouts.prototype.layouts = [
+Layout.prototype.layout_types = [
 	{	size: 6,
 		cells:[
 			[1,1],
@@ -131,6 +141,6 @@ Layouts.prototype.layouts = [
 			[1,1,1,1,1,1]]}
 ];
 
-Layouts.prototype.get_layout_maxnum = function(){
-	return (this.layouts.length - 1);
+Layout.prototype.get_layout_maxnum = function(){
+	return (this.layout_types.length - 1);
 }

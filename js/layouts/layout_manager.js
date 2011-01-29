@@ -32,18 +32,18 @@ var Layout_manager = function(params){
 }
 Layout_manager.prototype.init = function(){
 	
-	this.layout_init_small	= new Layouts({
+	this.layout_init_small	= new Layout({
 		cell_size: this.line_thumbs.cell_size,  
 		ratio: this.line_thumbs.ratio
 	});
 	
-	// Create layouts:
-	this.create_layouts(this.line_thumbs.ids);
+	// Create small clickable thumbnail layouts:
+	this.create_mini_layouts(this.line_thumbs.ids);
 	
 	// Initialize big layouts:
 	for (var i in this.layouts){
 		var l = this.layouts[i];
-		l.obj = new Layouts({cell_size: l.cell_size, ratio: l.ratio});
+		l.obj = new Layout({cell_size: l.cell_size, ratio: l.ratio});
 		if (typeof l.init_type != 'undefined'){
 			this.activate_layout(l.init_type, this, i);
 		}
@@ -58,6 +58,7 @@ Layout_manager.prototype.clickable = function(layout, click_handler){
 	);
 
 }
+// pass LM object - to be used with clickable function.
 Layout_manager.prototype.activate_layout = function(layout_type_num, LM, selector_val){
 	
 	var selector_val = selector_val || jQ("input[name="+LM.selector_name+"]:checked").val();
@@ -73,6 +74,7 @@ Layout_manager.prototype.activate_layout = function(layout_type_num, LM, selecto
 	var layout_init_big = LM.layouts[selector_val].obj;
 	var ratio = LM.layouts[selector_val].ratio;
 	
+	// draw div cells acc to layout type:
 	jQ("#"+container_id).html( layout_init_big.generate_grid( layout_type_num ) );
 	
 	// returns elements and relations to be destroyed with next try:
@@ -95,7 +97,9 @@ Layout_manager.prototype.activate_layout = function(layout_type_num, LM, selecto
 	debug_now('Save layout links: ' + global_layouts_tmp.elements.length);
 	
 }
-Layout_manager.prototype.create_layouts = function(layouts){
+
+// Creates a line of small clickable thumbnail layouts:
+Layout_manager.prototype.create_mini_layouts = function(layouts){
 	
 	var a = this.layout_init_small;
 	

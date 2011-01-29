@@ -1,0 +1,80 @@
+1. Create instance of Layout_manager:
+
+	a. Create a line of small layouts (static) - layout thumbnails:
+		- create instance of Layout with given properties;
+		- generate div grids according to minilayouts' types;
+		- make minilayout's divs clickable (assign an activation function to onClick to apply the layout type to a big layout).
+		
+	b. Create big layouts:
+		- create instance of Layout with given properties (type, cell size/ratio);
+		- generate a div grid;
+		- convert static grid to dynamic div (dragable/resizeable): each div is related to the instance of ElementObj.
+
+
+
+================================================
+Detailed description of main function calls.
+
+----
+index.php:
+
+lm = new Layout_manager(...);
+camMan = new CamManager(...);
+
+----
+Layout_manager::
+
+	Constructor (params: {line_thumbs, layouts, selector} ) {
+		this.init();
+		
+	};
+	
+	init {
+		// Create small layout
+		this.layout_init_small = new Layout({
+			cell_size: this.line_thumbs.cell_size,  
+			ratio: this.line_thumbs.ratio
+		});
+		
+		// Create small clickable thumbnail layouts:
+		this.create_layouts(this.line_thumbs.ids);
+		
+		// Initialize big layouts with given layout type grid:
+		for (var i in this.layouts){
+			var l = this.layouts[i];
+			l.obj = new Layout({cell_size: l.cell_size, ratio: l.ratio});
+			if (typeof l.init_type != 'undefined'){
+			
+				// Create a cell grid with dynamic divs:
+				this.activate_layout(l.init_type, this, i);
+			}
+		}
+	};
+	
+	// Create a line of small clickable thumbnail layouts:
+	create_layouts = function(layout_type_num, LM, selector_val){
+	
+		for (var i in layouts){
+			
+			// draw div cells acc to layout type:
+			jQ("#"+id).html( a.generate_grid(layout_type_num) );
+			
+			// Make layouts clickable:
+			this.clickable(this.layouts_info[layout_num], this.activate_layout);
+		
+	};
+	
+	// Create a cell grid with dynamic divs:
+	activate_layout {
+	
+		// draw div cells acc to layout type:
+		jQ("#"+container_id).html( layout_init_big.generate_grid( layout_type_num ) )
+		
+		// convert div cells to dymanic elements (dragable/reseizable):
+		var tmp = ConvertLayout(container_id, ratio);
+	
+	}
+	
+----
+Layouts::
+	

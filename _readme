@@ -1,3 +1,9 @@
+[.01.2011]
+Slava:
+1. Resize:
+	- resize the container itself, effecting wrapped cells.
+
+---------------------------------------------------------	
 [16.11.2010]
 Slava:
 1. Resize:
@@ -5,7 +11,7 @@ Slava:
 	- ratio setting DONE
 	- propagate from layout to all cells DONE
 2. Layouts:
-	- organize to have several layouts per page
+	- organize to have several layouts per page DONE (Dec 2, 2010)
 3. API:
 	- save layout
 	- ...
