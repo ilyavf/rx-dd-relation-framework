@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Layouts</title>
+
+	<script type="text/javascript" src="js/lib/flapjax.js"></script>
+	<script type="text/javascript" src="js/lib/jquery.js"></script>
+	<script type="text/javascript" src="js/lib/debug.js"></script>
+	<script type="text/javascript" src="js/fx-obj/fx-utils.js"></script>
+	<script type="text/javascript" src="js/fx-obj/fx-relations.js"></script>
+	<script type="text/javascript" src="js/fx-obj/fx-behaviours.js"></script>
+	<script type="text/javascript" src="js/fx-obj/fx-drag_obj.js"></script>
+	<script type="text/javascript" src="js/fx-obj/jq_dynamic_el.js"></script>
+	<link href="style_sokoban.css" type="text/css" rel="stylesheet" />
+</head>
+<body onload="loader();">
+
+
+<p>
+	-&gt; <b>Sokoban ) </b><br />
+</p>
+
+<div id="container">
+	<div class="block_stop" id="block_1">1</div>
+	<div class="block" id="block_2">2</div>
+	<div class="block" id="block_3">3</div>
+	<div class="block" id="block_4">4</div>
+	<div class="block" id="block_5">5</div>
+	<!--div class="block" id="block_6">6</div-->
+</div>
+
+
+<script language="javascript">
+var jQ = {};
+jQ = jQuery.noConflict(true);
+var debug = function(){};
+
+function loader(){
+	debug_init();
+	
+	jQ('.block_stop').toDynamic().activateBehaviours();
+	jQ('.block').toDynamic().activateBehaviours().addRelationMove().addRelationStop('block_1');
+	
+}
+
+</script>
+
+
+</body>
+
+</html>

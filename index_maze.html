@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Maze</title>
+
+	<script type="text/javascript" src="js/lib/flapjax.js"></script>
+	<script type="text/javascript" src="js/lib/jquery.js"></script>
+	<script type="text/javascript" src="js/lib/debug.js"></script>
+	<script type="text/javascript" src="js/fx-obj/fx-utils.js"></script>
+	<script type="text/javascript" src="js/fx-obj/fx-relations.js"></script>
+	<script type="text/javascript" src="js/fx-obj/fx-behaviours.js"></script>
+	<script type="text/javascript" src="js/fx-obj/fx-drag_obj.js"></script>
+	<script type="text/javascript" src="js/fx-obj/jq_dynamic_el.js"></script>
+	<link href="style_maze.css" type="text/css" rel="stylesheet" />
+</head>
+<body onload="loader();">
+
+
+<p>
+	-&gt; <b>Maze ) </b><br />
+</p>
+
+<div class="main move" id="block_0"></div>
+<div class="move" id="block_00"></div>
+<div class="move" id="block_01"></div>
+
+<div class="block" id="block_1"></div>
+<div class="block" id="block_2"></div>
+<div class="block" id="block_3"></div>
+<div class="block" id="block_4"></div>
+<div class="block" id="block_5"></div>
+<div class="block" id="block_6"></div>
+<div class="block" id="block_7"></div>
+<div class="block" id="block_8"></div>
+<div class="block" id="block_9"></div>
+<div class="block" id="block_10"></div>
+<div class="block" id="block_11"></div>
+<div class="block" id="block_12"></div>
+<div class="block" id="block_13"></div>
+
+
+<script language="javascript">
+var jQ = {};
+jQ = jQuery.noConflict(true);
+var debug = function(){};
+
+function loader(){
+	debug_init();
+	
+	jQ('.main').toDynamic().toDragable().activateBehaviours();
+	jQ('.move').addRelationMove();
+	jQ('.block').toDynamic().addRelationStop('.move');
+	
+}
+
+</script>
+
+
+</body>
+
+</html>
