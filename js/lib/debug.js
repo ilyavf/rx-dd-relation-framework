@@ -82,3 +82,6 @@ var debug_now = function(debug_str){
 	jQ("#debug_history2").html( debug_now_num + ': ' + debug_str + '<br />\n' + old);
 }
 
+function dump() {}
+
+
