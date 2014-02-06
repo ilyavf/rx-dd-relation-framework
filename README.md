@@ -1,7 +1,7 @@
 Drag'n'Drop Reactive Relation Framework
 =======================================
 
-In 2010 I worked with one of my friends in eFactorLabs who created a Video Survelance Platform and wanted to get a web ui for it. The project itself was called 3D-EYE. The main concepts for the UI were: 
+In 2010 I worked with one of my friends in eFactorLabs who created a Video Survelance Platform and wanted to build a web ui for it. The project itself was called 3D-EYE. In the beginning the main concepts for the UI were: 
 
 - there is a list of cameras (in a retail store, manufacturing or even residential);
 - user wants to watch some of cams simultaneously (security, safety, whatever);
@@ -10,9 +10,17 @@ In 2010 I worked with one of my friends in eFactorLabs who created a Video Surve
 - user can create his own layouts;
 - user can switch between different views (layouts).
 
-As a starting point, we decided that we need a light reactive framework for creating block-based UI via defining behaviour and relation between blocks.
+As a starting point, we decided that we need a light reactive framework for creating block-based UI via defining behaviour and relation between blocks. For reactivity we decided to use Flapjax (http://flapjax-lang.org/). Sorry, we didn't know about RxJS that time.
 
-A layout is a droppable area for cameras, it contains of several square blocks that are resizable and movable with a mouse:
+Current version of the commercial platform does not use this framework but is built based on ExtJS and RxJS.
+
+See http://efactorlabs.com/ for more details.
+The actual product screenshots here: http://efactorlabs.com/portfolio_item.html
+
+But back to this "DD Reactive Relation Framework". A layout is a droppable area for cameras, it contains of several square blocks that are resizable and movable with a mouse. If a block is moved and starts overlap another block then depending on defined rules it could be that:
+- the second block will be moved;
+- resized;
+- it will stop the current block from being moved.
 
 <pre>
 ____________________         ____________________ 
@@ -27,11 +35,6 @@ ____________________         ____________________
 
 User can move borders between the areas to create a convient view of the video streams.
 User can drag and drop camera objects for video stream being shown in the area.
-
-Current version of the commercial platform does not use this framework but is built based on ExtJS.
-
-See http://efactorlabs.com/ for more details.
-The actual product screenshots here: http://efactorlabs.com/portfolio_item.html
 
 ##Demo
 
