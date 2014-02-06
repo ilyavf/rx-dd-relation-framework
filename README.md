@@ -1,18 +1,26 @@
 Drag'n'Drop Reactive Relation Framework
 =======================================
 
-A reactive framework for creating block-based UI via defining behaviour and relation between blocks.
+In 2010 I worked with one of my friends in eFactorLabs who created a Video Survelance Platform and wanted to get a web ui for it. The project itself was called 3D-EYE. The main concepts for the UI were: 
 
-The goal was to have a small effective framework to use for a Video Survelance System layouts. 
-A layout is a droppable area for cameras, it contains of several square blocks that are resizable.
+- there is a list of cameras (in a retail store, manufacturing or even residential);
+- user wants to watch some of cams simultaneously (security, safety, whatever);
+- UI has some predefined layouts where cameras could be dropped in to stream video to;
+- user can reorganize and modify layouts by moving borders between items;
+- user can create his own layouts;
+- user can switch between different views (layouts).
+
+As a starting point, we decided that we need a light reactive framework for creating block-based UI via defining behaviour and relation between blocks.
+
+A layout is a droppable area for cameras, it contains of several square blocks that are resizable and movable with a mouse:
 
 <pre>
 ____________________         ____________________ 
 |             |     |        |  a |      b       | 
 |     a       | b   |        |____|______________|
-|_____________|_____|   =>   |    |     |        |
-|       |     |     |        |  c |   d |   e    |   
-|   c   | d   | e   |        |    |     |        |  
+|_____________|_____|   =>   |    |              |
+|       |     |     |        |  c |      d       |   
+|   c   | d   | e   |        |    |              |  
 --------------------         --------------------   
 
 </pre>
@@ -20,12 +28,10 @@ ____________________         ____________________
 User can move borders between the areas to create a convient view of the video streams.
 User can drag and drop camera objects for video stream being shown in the area.
 
-A project was called 3D-EYE and initiated by eFactorLabs company.
-Current version of the commercial version does not use this framework but is built based on ExtJS.
+Current version of the commercial platform does not use this framework but is built based on ExtJS.
 
 See http://efactorlabs.com/ for more details.
 The actual product screenshots here: http://efactorlabs.com/portfolio_item.html
-
 
 ##Demo
 
