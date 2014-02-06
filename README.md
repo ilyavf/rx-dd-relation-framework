@@ -38,13 +38,16 @@ User can drag and drop camera objects for video stream being shown in the area.
 
 ##Demo
 
-For demo just open in your browser index_maze.html and index_drag.html
+For demo just open in your browser:
+- "index.html" for layout platform demo;
+- "index_maze.html" for a Sokoban (Maze) game;
+- "index_drag.html" for drag-resize-move-stop demo.
 
 ##Usage
 
-###Drag-Resize-Stop
+###Drag-Resize-Move-Stop
 
--1. Assume you have some html looking like this:
+-1. Assume you have some html containing some square blocks like this:
 ```html
 	<div id="e1" class="e1">e1</div>
 	<div id="e2" class="container">e2</div>
@@ -63,7 +66,7 @@ For demo just open in your browser index_maze.html and index_drag.html
 	e3.applyBehavior( BehaviorDrag() );     // e3 is both draggable and resizeable
 	e3.applyBehavior( BehaviorResize() );
 ```
--4. Define relations (move, stop)
+-4. Define relations between elements (move, stop)
 ```js
   // When you drag e1 it can move e2 and vice versa:
 	var R12 = new Relation('R12', e1, e2, RelationFuncMove);
@@ -72,7 +75,7 @@ For demo just open in your browser index_maze.html and index_drag.html
 	var R34 = new Relation('R34', e3, e2, RelationFuncStop);
 ```
 
-###Maze / Sokoban (implemented as a jQuery plugin)
+###Sokoban / Maze (implemented as a jQuery plugin)
 
 - Here is your maze ('.block'), actor ('.main'), and some boxes ('block_00' and 'block_01') that our actor can move:
 ```html
