@@ -63,7 +63,7 @@ var show_buffered_debug = function(){
 var debug_init = function(){
 	var debug_html = 
 	'<div style="position:absolute; right:0; top:0; padding-top: 5px;">' +
-		'<input type="checkbox" id="history_flag" value="1" checked="checked" /> Turn on debug.' +
+		'<input type="checkbox" id="history_flag" value="1" /> Turn on debug.' +
 		'<button onClick="javascript: show_buffered_debug();">Show debug</button>' +
 		'<button onClick="javascript: buffered_debug=\'\';">Clear buffer</button>' +
 		'<div id="debug_history" style="width:450px; height:330px; border: 1px solid gray; padding: 5px;">debug_history</div>' +
